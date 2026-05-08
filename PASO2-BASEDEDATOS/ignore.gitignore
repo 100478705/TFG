@@ -1,0 +1,17 @@
+# Archivos de modelos
+*.pkl
+*.joblib
+*.h5
+
+# Entornos virtuales 
+venv/
+env/
+.env/
+
+# Archivos de Python compilados
+__pycache__/
+*.py[cod]
+
+# Carpetas de sistemas operativos
+.DS_Store
+.ipynb_checkpoints/

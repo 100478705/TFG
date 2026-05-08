@@ -1,0 +1,152 @@
+COMPARACION PAPERS
+------------------------------------------------------------------------------------------------------------------
+IEEE EXPLORER (Satellite Orbit Prediction Based on Recurrent Neural Network using Two Line Elements):
+
+preguntar:
+	No me deja acceder
+------------------------------------------------------------------------------------------------------------------
+LOW EARTH (LOW-EARTH SATELLITE ORBIT DETERMINATION USING DEEP CONVOLUTIONAL NETWORKS WITH SATELLITE IMAGERY):
+
+------------------------------------------------------------------------------------------------------------------
+
+ROSA (Machine Learning for the refinement of orbital propagation):
+
+habla de prediccion de posiciones concretas (regresion)
+
+precision de posiciones satelitales:
+	SGP4 -> SGDP4 <- SDP4
+		perturbaciones simplificadas
+	HPOP
+		Alta precision
+
+arquitecturas de redes neuronales:
+	redes densas
+	redes GRU
+	redes residuales
+diferentes configuraciones:
+	predecir coordenadas por separado 
+	entrenar para tiempos de prediccion concretos
+
+se centra en orbitas a bajo nivel near earth objects (5,877.5 km) SGP, SGP4, SGP8
+los lejanos utilizan SGP4 y SGP8
+
+
+habla de un LSTM y regresion lineal donde pilla 6 datos orbitales (no especifica), de unos 20
+	predice 6 elemento de la orbita TLE 
+	Hace 80 training 20 test
+	saca los datos de IRIDIUM118 que creo que es un satelite
+
+habla de un SVM que mide duraccion direccion y velocidad (lo hacen Peng and Bai)
+	entradas:
+
+    La duración de la predicción: como de lejos en el futuro quiere predecir
+
+    Posición y velocidad en la época actual: Dónde está y qué tan rápido se mueve el objeto justo en este momento (epoch).
+
+    Coeficiente de arrastre estimado (drag): Un valor que indica cuánto está frenando la atmósfera al objeto en ese instante.
+
+    Elevación máxima medida en el rastreo actual: El punto más alto sobre el horizonte al que llegó el objeto durante su paso.
+
+    Rango (distancia) y azimut correspondientes: La distancia directa al objeto y su ángulo horizontal (orientación compás) en ese momento de máxima elevación.
+azimut: Es el ángulo horizontal medido desde el Norte. Sirve para saber hacia qué punto del compás mirar.
+
+    Posición y velocidad predichas: Los valores calculados de dónde debería estar el objeto según el modelo.
+	
+	Salidas:
+	La salida del SVM fue un vector de seis componentes que detallaba el error de posición y velocidad en cada eje.
+
+	Conclusion:
+	poco util muy a largo plazo
+
+Neural network approach densas
+	entrenan 6 modelos cada uno encargado de una sola componente 
+	utiliza los mismos datos que en el SVM
+	basicamente dice que es buenísima
+	
+PCA XGBoost
+	simplifica los datos y utiliza xgboost, se centra en la limpieza de datos
+	random forest con encoder y decoder
+	mejoran el sgp4 un 20/30%
+	entrena 6 modelos tambien uno para cada eje
+	
+	
+su analisis concluye con que es mejor entrenar 6 modelos uno por cada variable y con epoch cortos (rangos de tiempo cortos)
+
+utiliza gru, dcn, residual gru y residual dcn para sacar 3 elementos del vector
+
+ACCURACY 90%
+
+_______________________________________5________________________________________
+------------------------------------------------------------------------------------------------------------------
+Orbit Determination Via Physics Informed Neural Networks:
+
+determinacion de la orbita
+aporta una solucion de minimos cuadrados
+relaciones no lineales entre parámetros y medidas
+
+
+Este trabajo introduce una técnica innovadora para la Determinación de Órbitas (OD) utilizando Redes Neuronales Informadas por la Física (PINNs).
+
+    El Problema: La determinación de órbita clásica requiere una estimación inicial muy buena y mucha computación para integrar las ecuaciones diferenciales.
+
+    La Solución (PILS): Utilizan una red neuronal de una sola capa llamada Extreme Learning Machine (ELM). Lo especial es que la red no solo aprende de los datos observados, sino que "conoce" las leyes de la física.
+
+    Función de Pérdida Híbrida: La red se entrena para minimizar dos cosas a la vez:
+
+        La diferencia con las observaciones (datos).
+
+        El incumplimiento de las ecuaciones del movimiento (física).
+
+3. Ventajas clave respecto a otros métodos
+
+    Sin estimación inicial: A diferencia de los métodos clásicos, no necesitas saber "más o menos" dónde está el satélite para que el algoritmo funcione.
+
+    Rapidez: Al usar ELM, el entrenamiento es extremadamente rápido (milisegundos o segundos), ya que solo se entrenan los pesos de la capa de salida.
+
+    Trayectoria completa: El modelo genera una función matemática continua de la órbita, no solo puntos discretos.
+    
+    muy buena precision, de metros, pero nada parecido a lo mio
+***
+------------------------------------------------------------------------------------------------------------------
+Ceron
+1. La métrica de Accuracy (Exactitud)
+
+En su resumen (pág. III), Cerón menciona un Accuracy del 44% usando Random Forest para clasificar espectros en 4 clases.
+
+    Cómo aplicarlo: en problemas de astrofísica con datos reales (ruidosos y complejos), alcanzar un "accuracy" perfecto es muy difícil. Él justifica que un 44% es un éxito porque es muy superior al azar (que sería un 25% para 4 clases). Tú puedes comparar tu accuracy con el suyo para validar tus resultados.
+
+2. Clasificación "Multiclase"
+
+Clasifica los datos en 4 clases según su calidad. Tu panic_level también suele tener varias categorías (0 a 4).
+
+    Cómo aplicarlo: Cita que el uso de algoritmos como Random Forest o Redes Neuronales para clasificar objetos celestiales basándose en parámetros físicos (en su caso espectros, en el tuyo vectores y magnitudes) es una metodología estándar y robusta en la astronomía moderna.
+
+3. El uso de Software Profesional (HEASoft vs. Astroquery)
+
+Utiliza HEASoft y herramientas de la NASA para procesar los datos antes de la IA.
+
+    Cómo aplicarlo: En Estado del Arte, escribir:
+
+    "Al igual que en estudios recientes de análisis de grandes volúmenes de datos astronómicos (Cerón, 2024), donde se utilizan herramientas especializadas como HEASoft para el procesamiento de datos de Rayos X, este TFG emplea la librería Astroquery para acceder a las efemérides de JPL Horizons de la NASA, asegurando la integridad científica de los datos de entrada para el modelo de clasificación."
+
+4. La importancia del "Big Data" en Astronomía
+
+Cerón destaca que la astronomía actual genera tantos datos que es imposible analizarlos a mano.
+
+    Cómo aplicarlo: Esto justifica por qué estás haciendo una IA para 50,000 asteroides. Puedes citar que el aprendizaje automático es la única vía para procesar catálogos masivos, igual que él hace con el catálogo del XMM-Newton.
+
+------------------------------------------------------------------------------------------------------------------
+
+Pablo Blas
+
+Blas no utiliza astroquery
+
+al igual que Bas (2024), he evaluado diferentes arquitecturas de aprendizaje supervisado, 
+confirmando que algoritmos de conjunto (como Random Forest) o redes densas son los más eficaces para clasificar 
+alertas espaciales.
+
+mientras Bas utiliza fotometría para clasificar eventos, mi trabajo innova utilizando parámetros dinámicos y 
+de posición real de la NASA para determinar el riesgo.
+
+accuracy mayor al 90
+------------------------------------------------------------------------------------------------------------------

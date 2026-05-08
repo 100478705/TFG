@@ -1,0 +1,149 @@
+# PARA VER LOS PARÁMETROS DEL MODELO GANADOR
+"""import pickle
+import os
+
+# 1. Obtener la ruta de la carpeta donde está este script
+folder_path = os.path.dirname(os.path.abspath(__file__))
+# 1. Cargamos el modelo guardado
+with open(os.path.join(folder_path, 'modelo_panico_asteroides.pkl'), 'rb') as f:
+    modelo_cargado = pickle.load(f)
+
+# 2. Extraer todos los parámetros
+# Como es un Pipeline, verás nombres como 'classifier__n_estimators' o 'preprocessor__num__scaler'
+parametros = modelo_cargado.get_params()
+
+print("--- CONFIGURACIÓN COMPLETA DEL MODELO ---")
+# Filtramos para ver solo lo importante (el clasificador y el preprocesador)
+for llave, valor in parametros.items():
+    if 'classifier__' in llave or 'preprocessor__' in llave:
+        print(f"{llave}: {valor}")
+
+# 3. Si quieres ver solo el nombre del algoritmo que ganó:
+print("\n--- ALGORITMO GANADOR ---")
+print(modelo_cargado.named_steps['classifier'])"""
+
+
+
+
+
+
+
+
+
+
+import os
+import pickle
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, classification_report, balanced_accuracy_score
+# ==========================================
+# 1. CARGA Y PREPROCESAMIENTO DE DATOS (CORREGIDO)
+# ==========================================
+folder_path = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(folder_path, "dataset_final.csv")
+
+if not os.path.exists(file_path):
+    print(f"❌ Error: No se encuentra el archivo {file_path}")
+    exit()
+
+data_df = pd.read_csv(file_path)
+
+# A. Filtrar clases con pocos ejemplos (Igual que antes)
+counts = data_df['panic_level'].value_counts()
+clases_validas = counts[counts >= 10].index
+data_df = data_df[data_df['panic_level'].isin(clases_validas)]
+
+# B. ELIMINACIÓN MANUAL DE COLUMNAS (¡Aquí está el cambio!)
+# No uses la detección automática de constantes (constant_columns), 
+# porque si en este trozo de datos una columna es constante pero en el original no, el modelo falla.
+columnas_a_quitar = [
+    'asteroid_designation', 
+    'asteroid_fullname', 
+    'close_approach_date', 
+    'panic_verdict'
+]
+
+# Solo quitamos las columnas que NO son características del modelo
+processed_df = data_df.drop(columns=columnas_a_quitar, errors='ignore')
+
+# C. Separar X e y
+X = processed_df.drop(columns=['panic_level'])
+y = processed_df['panic_level']
+
+# D. Split con el mismo random_state
+X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=1/3, random_state=777)
+
+print("✅ Datos preparados. X_test ahora incluye todas las columnas necesarias.")
+
+# ==========================================
+# 2. CARGA DEL MODELO (.PKL)
+# ==========================================
+model_path = os.path.join(folder_path, 'modelo_panico_asteroides.pkl')
+
+if not os.path.exists(model_path):
+    print(f"❌ Error: No se encuentra el archivo {model_path}")
+    exit()
+
+with open(model_path, 'rb') as f:
+    modelo_cargado = pickle.load(f)
+
+print(f"✅ Modelo cargado con éxito: {type(modelo_cargado.named_steps['classifier']).__name__}")
+print("-" * 50)
+
+# ==========================================
+# 3. EVALUACIÓN Y MÉTRICAS
+# ==========================================
+y_pred = modelo_cargado.predict(X_test)
+
+bal_acc = balanced_accuracy_score(y_test, y_pred)
+print(f"PRECISIÓN BALANCEADA (Balanced Accuracy): {bal_acc:.4f}")
+print("\nREPORTE DE CLASIFICACIÓN:")
+print(classification_report(y_test, y_pred))
+
+# ==========================================
+# 4. GRÁFICA 1: MATRIZ DE CONFUSIÓN
+# ==========================================
+plt.figure(figsize=(10, 8))
+matriz = confusion_matrix(y_test, y_pred)
+sns.heatmap(matriz, annot=True, fmt='d', cmap='magma')
+plt.title('Matriz de Confusión: Predicciones vs Realidad')
+plt.xlabel('Predicción (Nivel de Pánico)')
+plt.ylabel('Nivel Real (Ground Truth)')
+plt.tight_layout()
+plt.savefig('matriz_confusion.png', dpi=300)
+plt.show()
+
+# ==========================================
+# 5. GRÁFICA 2: IMPORTANCIA DE VARIABLES
+# ==========================================
+# Extraemos importancias y nombres de las columnas
+importancias = modelo_cargado.named_steps['classifier'].feature_importances_
+
+# Obtener nombres de las columnas después del preprocesador
+try:
+    nombres_features = modelo_cargado.named_steps['preprocessor'].get_feature_names_out()
+except AttributeError:
+    # Por si usas una versión más antigua de sklearn
+    nombres_features = modelo_cargado.named_steps['preprocessor'].get_feature_names()
+
+# Limpiar prefijos num__ y cat__ para que la gráfica quede limpia
+nombres_limpios = [n.replace('num__', '').replace('cat__', '') for n in nombres_features]
+
+# Crear DataFrame para ordenar los datos
+df_importancia = pd.DataFrame({
+    'Variable': nombres_limpios,
+    'Importancia': importancias
+}).sort_values(by='Importancia', ascending=False)
+
+plt.figure(figsize=(12, 7))
+sns.barplot(x='Importancia', y='Variable', data=df_importancia.head(15), palette='viridis')
+plt.title('Top 15 Atributos más influyentes en el Nivel de Pánico')
+plt.xlabel('Importancia Relativa')
+plt.ylabel('Atributo del Asteroide')
+plt.grid(axis='x', linestyle='--', alpha=0.6)
+plt.tight_layout()
+plt.savefig('importancia_variables.png', dpi=300) 
+plt.show()

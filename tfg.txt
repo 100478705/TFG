@@ -1,0 +1,83 @@
+tfg
+
+-2 dias en meter datos de ubicacion de asteride vector velocidad y posicion de la tierra
+
+-que busco precedir, risk score o panic level (van de la mano)
+
+-risk-score no coinciden con los de verdad en algunos casos
+-panic level de hasta nivel 9
+
+
+--------------
+
+- No puedo utilizar one hot encoder por la alta cardinalidad
+- los vectores me los toma como categóricos
+- vector tierra constante
+- sentry_impact_prob      0.92810
+sentry_torino_scale     0.92820
+sentry_palermo_scale    0.92810
+sentry_diameter_km      0.92810
+
+Cuanto menor es el número de H, más brillante es el objeto.
+Un objeto más brillante suele ser un objeto más grande (asumiendo que reflejan la misma cantidad de luz), la base para los
+asteroides rocosos es de 0.15 de albedo(A). Utilizo esta proporcion ya que no dispongo de todos los albedos de todos los asteroides
+pero sí el H. Para medir el albedo es necesario un analisis infrarrojo de noseque y eso no lo hacen con los asteroides menos conocidos
+o más pequeños.
+
+saco el tamaño del asteroide partiendo del H_mag que si que tiene astroquery
+H es el brillo teórico que tendría un cuerpo a 1ua de la tierra y del sol
+El albedo es la proporcion entre la energía luminosa que incide en una superficie y la que se refleja.
+
+AHORA TOCA APLICARLO A LOS 50K
+--------------------\n\n")
+
+# Para multiclase, calculamos precision, recall y F1 macro-average
+from sklearn.metrics import classification_report
+print("Reporte de clasificación (macro-average):")
+print(classification_report(y_test, rf_pred_best, labels=range(10), target_names=[f'Clase {i}' for i in range(10)], zero_division=0))
+
+'''
+17h +- en actualizarlo
+
+He hecho varios códigos para modificar la bbdd, unifico todos y cambio la posición de la tierra a la que tendría en el Close_Aproach
+Como ubicacion del asteroide pongo la que tendría 30 antes del close aproach para simular la información que tendría un observador
+
+La api de la nasa astroquery solo admite calendario juliano
+
+
+
+-------------------------------------------------------------
+
+Estado del arte
+(Rosa) citar a Calderón para decir: "Se ha demostrado que las redes neuronales superan a los modelos físicos tradicionales en la gestión de variables orbitales complejas".
+
+(Italiano) citar el artículo de PILS para decir: "Siguiendo la tendencia de las Physics-Informed Neural Networks, este TFG utiliza datos físicos reales de la API de la NASA para alimentar un modelo de clasificación".
+
+"En cuanto a la aplicación de técnicas de aprendizaje automático en el ámbito astronómico, destaca el trabajo de Cerón (2024),
+quien aplica algoritmos de clasificación supervisada (Random Forest y YOLOv8) para el análisis de grandes bases de datos del observatorio
+de rayos X XMM-Newton. Su investigación resalta cómo el uso de herramientas de software especializadas y la correcta selección de parámetros 
+físicos permiten clasificar fuentes astronómicas con una eficacia significativamente mayor al azar, enfrentando desafíos similares 
+a los de este TFG en términos de limpieza de datos y manejo de múltiples clases de riesgo o calidad."
+
+------------------------------------------------------------
+PARA MI
+CÓDIGO PARA UTILIZAR ON SENTRY LIST LO IDEAL SERÍA HACER UNA SEGUNDA BBDD SIN ELLOS PARA COMPARAR
+# 1. Convertimos la columna booleana en numérica (1 y 0)
+df_final['on_sentry_list'] = df_final['on_sentry_list'].astype(int)
+
+# 2. Si quieres usar la probabilidad de impacto, rellena los huecos con 0
+if 'sentry_impact_prob' in df_final.columns:
+    df_final['sentry_impact_prob'] = df_final['sentry_impact_prob'].fillna(0)
+
+# 3. Borra el resto de columnas de Sentry que tengan DEMASIADOS nulos
+# (Palermo y Torino son muy difíciles de usar si solo hay datos en 1 de cada 1000 filas)
+columnas_inservibles = ['sentry_torino_scale', 'sentry_palermo_scale', 'sentry_diameter_km']
+df_final.drop(columns=columnas_inservibles, errors='ignore', inplace=True)
+
+-------------------------------------------------------------
+
+Para entrenar knn 5 minutos, para dtc 126 minutos, seguramente lo corra y me quede con la solucion en capturas. 
+Me guardo los hiperparámetros para en el caso de tener que volver a hacerlo tenerlos.
+
+Las primeras pruebas me han dado un 92% accuracy para knn y un 95% para arboles, por miedo al sobre aprendizaje les meto más restricciones.
+
