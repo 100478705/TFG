@@ -95,36 +95,7 @@ print(f"Tiempo de entrenamiento: {training_time:.2f} segundos")
 print(f"Balanced Accuracy: {bal_acc:.4f}")
 print(f"Accuracy: {acc:.4f}")
 
-"""# GENERACIÓN DE GRÁFICAS
-
-# Gráfica 1: Matriz de Confusión
-plt.figure(figsize=(10, 8))
-cm = confusion_matrix(y_test, y_pred)
-sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
-            xticklabels=np.unique(y), yticklabels=np.unique(y))
-plt.title('Matriz de Confusión - Red Neuronal')
-plt.xlabel('Predicción')
-plt.ylabel('Real')
-plt.show()
-
-# Gráfica 2: Reporte de Clasificación (Heatmap)
-plt.figure(figsize=(10, 6))
-report = classification_report(y_test, y_pred, output_dict=True)
-sns.heatmap(pd.DataFrame(report).iloc[:-1, :].T, annot=True, cmap='RdYlGn')
-plt.title('Métricas por Clase (Precision, Recall, F1)')
-plt.show()
-
-# Gráfica 3: Curva de Pérdida (Loss Curve)
-# El MLPClassifier guarda la pérdida en 'loss_curve_'
-plt.figure(figsize=(8, 5))
-plt.plot(best_mlp.named_steps['classifier'].loss_curve_)
-plt.title('Curva de Pérdida durante el entrenamiento')
-plt.xlabel('Iteraciones')
-plt.ylabel('Loss')
-plt.grid(True)
-plt.show()"""
-
-# 8. GUARDAR MODELO
+# GUARDAR MODELO
 with open('modelo_nn_panico.pkl', 'wb') as f:
     pickle.dump(best_mlp, f)
 
