@@ -28,9 +28,6 @@ print(modelo_cargado.named_steps['classifier'])"""
 
 
 
-
-
-
 import os
 import pickle
 import pandas as pd
@@ -38,112 +35,119 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix, classification_report, balanced_accuracy_score
+from sklearn.metrics import (balanced_accuracy_score, accuracy_score, confusion_matrix, 
+                             classification_report)
+
 # ==========================================
-# 1. CARGA Y PREPROCESAMIENTO DE DATOS (CORREGIDO)
+# 1. CONFIGURACIÓN DE RUTAS Y CARPETAS
 # ==========================================
 folder_path = os.path.dirname(os.path.abspath(__file__))
 file_path = os.path.join(folder_path, "dataset_final.csv")
+charts_folder = os.path.join(folder_path, "graficas")
 
-if not os.path.exists(file_path):
-    print(f"❌ Error: No se encuentra el archivo {file_path}")
-    exit()
+# Crear carpeta de gráficas si no existe
+if not os.path.exists(charts_folder):
+    os.makedirs(charts_folder)
+    print(f"Carpeta creada con éxito: {charts_folder}")
 
+# ==========================================
+# 2. CARGA Y LIMPIEZA DE DATOS (Exactamente igual que en el entrenamiento)
+# ==========================================
+print("Cargando y preparando los datos...")
 data_df = pd.read_csv(file_path)
 
-# A. Filtrar clases con pocos ejemplos (Igual que antes)
+# ELIMINO LAS FILAS DE PANIC LEVEL CON CANTIDADES MENORES A 10 es decir la clase 9
 counts = data_df['panic_level'].value_counts()
 clases_validas = counts[counts >= 10].index
 data_df = data_df[data_df['panic_level'].isin(clases_validas)]
 
-# B. ELIMINACIÓN MANUAL DE COLUMNAS (¡Aquí está el cambio!)
-# No uses la detección automática de constantes (constant_columns), 
-# porque si en este trozo de datos una columna es constante pero en el original no, el modelo falla.
-columnas_a_quitar = [
-    'asteroid_designation', 
-    'asteroid_fullname', 
-    'close_approach_date', 
-    'panic_verdict'
-]
+# Identificar columnas constantes, excepto 'vector_posicion_tierra'
+constant_columns = [col for col in data_df.columns if data_df[col].nunique() == 1]
 
-# Solo quitamos las columnas que NO son características del modelo
-processed_df = data_df.drop(columns=columnas_a_quitar, errors='ignore')
+# Eliminar las columnas constantes del dataframe
+processed_df = data_df.drop(columns=constant_columns)
 
-# C. Separar X e y
+# Voy a eliminar las columnas categóricas ya que añaden mucha complejidad al modelo, y no aportan información relevante para la clasificación 
+processed_df = data_df.drop(columns=['asteroid_designation', 'asteroid_fullname', 'close_approach_date'], errors='ignore')
+
+# Eliminamos la columna inutil de panic_verdict
+processed_df = processed_df.drop(columns=['panic_verdict'], errors='ignore')
+# Separar X e y
 X = processed_df.drop(columns=['panic_level'])
 y = processed_df['panic_level']
 
-# D. Split con el mismo random_state
-X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=1/3, random_state=777)
-
-print("✅ Datos preparados. X_test ahora incluye todas las columnas necesarias.")
+# IMPORTANTE: Usamos el mismo random_state y test_size para aislar el mismo conjunto de Test
+_, X_test, _, y_test = train_test_split(X, y, stratify=y, test_size=1/3, random_state=777)
 
 # ==========================================
-# 2. CARGA DEL MODELO (.PKL)
+# 3. CARGA DE MODELOS PREENTRENADOS
 # ==========================================
-model_path = os.path.join(folder_path, 'modelo_panico_asteroides.pkl')
+print("\nCargando modelos desde el directorio raíz...")
 
-if not os.path.exists(model_path):
-    print(f"❌ Error: No se encuentra el archivo {model_path}")
-    exit()
+with open(os.path.join(folder_path, 'modelo_nn_panico.pkl'), 'rb') as f:
+    modelo_nn = pickle.load(f)
 
-with open(model_path, 'rb') as f:
-    modelo_cargado = pickle.load(f)
-
-print(f"✅ Modelo cargado con éxito: {type(modelo_cargado.named_steps['classifier']).__name__}")
-print("-" * 50)
+with open(os.path.join(folder_path, 'modelo_panico_asteroides.pkl'), 'rb') as f:
+    modelo_arbol_knn = pickle.load(f)
 
 # ==========================================
-# 3. EVALUACIÓN Y MÉTRICAS
+# 4. FUNCIÓN DE EVALUACIÓN Y GRAFICADO
 # ==========================================
-y_pred = modelo_cargado.predict(X_test)
+def evaluar_y_graficar(modelo, nombre_modelo, X_test, y_test, charts_folder):
+    print(f"\n--- Evaluando: {nombre_modelo} ---")
+    
+    # Predecir (el pipeline interno del modelo se encarga de escalar e imputar automáticamente)
+    y_pred = modelo.predict(X_test)
+    
+    # Métricas
+    bal_acc = balanced_accuracy_score(y_test, y_pred)
+    acc = accuracy_score(y_test, y_pred)
+    print(f"Balanced Accuracy: {bal_acc:.4f}")
+    print(f"Accuracy regular: {acc:.4f}")
 
-bal_acc = balanced_accuracy_score(y_test, y_pred)
-print(f"PRECISIÓN BALANCEADA (Balanced Accuracy): {bal_acc:.4f}")
-print("\nREPORTE DE CLASIFICACIÓN:")
-print(classification_report(y_test, y_pred))
+    # --- Gráfica 1: Matriz de Confusión ---
+    plt.figure(figsize=(10, 8))
+    cm = confusion_matrix(y_test, y_pred)
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
+                xticklabels=np.unique(y_test), yticklabels=np.unique(y_test))
+    plt.title(f'Matriz de Confusión - {nombre_modelo}')
+    plt.xlabel('Predicción')
+    plt.ylabel('Real')
+    plt.savefig(os.path.join(charts_folder, f'matriz_confusion_{nombre_modelo.replace(" ", "_")}.png'))
+    plt.close()
+
+    # --- Gráfica 2: Reporte de Clasificación ---
+    plt.figure(figsize=(10, 6))
+    report = classification_report(y_test, y_pred, output_dict=True, zero_division=0)
+    sns.heatmap(pd.DataFrame(report).iloc[:-1, :].T, annot=True, cmap='RdYlGn')
+    plt.title(f'Métricas por Clase - {nombre_modelo}')
+    plt.savefig(os.path.join(charts_folder, f'reporte_clasificacion_{nombre_modelo.replace(" ", "_")}.png'))
+    plt.close()
 
 # ==========================================
-# 4. GRÁFICA 1: MATRIZ DE CONFUSIÓN
+# 5. EJECUCIÓN
 # ==========================================
-plt.figure(figsize=(10, 8))
-matriz = confusion_matrix(y_test, y_pred)
-sns.heatmap(matriz, annot=True, fmt='d', cmap='magma')
-plt.title('Matriz de Confusión: Predicciones vs Realidad')
-plt.xlabel('Predicción (Nivel de Pánico)')
-plt.ylabel('Nivel Real (Ground Truth)')
-plt.tight_layout()
-plt.savefig(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'graficas', 'matriz_confusion.png'), dpi=300, bbox_inches='tight')
-plt.show()
+# Evaluamos el modelo anterior (Árbol de Decisión o KNN)
+evaluar_y_graficar(modelo_arbol_knn, "Modelo_Clasico", X_test, y_test, charts_folder)
 
-# ==========================================
-# 5. GRÁFICA 2: IMPORTANCIA DE VARIABLES
-# ==========================================
-# Extraemos importancias y nombres de las columnas
-importancias = modelo_cargado.named_steps['classifier'].feature_importances_
+# Evaluamos la Red Neuronal
+evaluar_y_graficar(modelo_nn, "Red_Neuronal", X_test, y_test, charts_folder)
 
-# Obtener nombres de las columnas después del preprocesador
+# --- Gráfica Exclusiva 3: Curva de Pérdida de la Red Neuronal ---
+# Como el modelo está guardado como un Pipeline, tenemos que extraer el clasificador ('classifier')
 try:
-    nombres_features = modelo_cargado.named_steps['preprocessor'].get_feature_names_out()
-except AttributeError:
-    # Por si usas una versión más antigua de sklearn
-    nombres_features = modelo_cargado.named_steps['preprocessor'].get_feature_names()
+    clasificador_nn = modelo_nn.named_steps['classifier']
+    if hasattr(clasificador_nn, 'loss_curve_'):
+        plt.figure(figsize=(8, 5))
+        plt.plot(clasificador_nn.loss_curve_)
+        plt.title('Curva de Pérdida - Red Neuronal')
+        plt.xlabel('Iteraciones')
+        plt.ylabel('Loss')
+        plt.grid(True)
+        plt.savefig(os.path.join(charts_folder, 'curva_perdida_Red_Neuronal.png'))
+        plt.close()
+        print(f"\nCurva de pérdida de la Red Neuronal guardada con éxito.")
+except Exception as e:
+    print(f"\nNo se pudo generar la curva de pérdida. Motivo: {e}")
 
-# Limpiar prefijos num__ y cat__ para que la gráfica quede limpia
-nombres_limpios = [n.replace('num__', '').replace('cat__', '') for n in nombres_features]
-
-# Crear DataFrame para ordenar los datos
-df_importancia = pd.DataFrame({
-    'Variable': nombres_limpios,
-    'Importancia': importancias
-}).sort_values(by='Importancia', ascending=False)
-
-plt.figure(figsize=(12, 7))
-sns.barplot(x='Importancia', y='Variable', data=df_importancia.head(15), palette='viridis')
-plt.title('Top 15 Atributos más influyentes en el Nivel de Pánico')
-plt.xlabel('Importancia Relativa')
-plt.ylabel('Atributo del Asteroide')
-plt.grid(axis='x', linestyle='--', alpha=0.6)
-plt.tight_layout()
-plt.savefig(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'graficas', 'importancia_variables.png'), dpi=300, bbox_inches='tight')
-plt.show()
+print(f"\n¡Proceso finalizado! Todas las gráficas se han guardado en: {charts_folder}")
