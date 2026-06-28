@@ -1,0 +1,718 @@
+%----------
+%   IMPORTANTE
+%----------
+
+% Esta plantilla está basada en las recomendaciones de la guía "Trabajo fin de Grado: Escribir el TFG", que encontrarás en http://uc3m.libguides.com/TFG/escribir
+% contiene recomendaciones de la Biblioteca basadas principalmente en estilos APA e IEEE, pero debes seguir siempre las orientaciones de tu Tutor de TFG y la normativa de TFG para tu titulación.
+
+
+
+% ESTA PLANTILLA ESTÁ BASADA EN EL ESTILO IEEE
+
+
+%----------
+%	CONFIGURACIÓN DEL DOCUMENTO
+%----------
+
+\documentclass[12pt]{report} % fuente a 12pt
+
+% MÁRGENES: 2,5 cm sup. e inf.; 3 cm izdo. y dcho.
+\usepackage[
+a4paper,
+vmargin=2.5cm,
+hmargin=3cm
+]{geometry}
+
+% INTERLINEADO: Estrecho (6 ptos./interlineado 1,15) o Moderado (6 ptos./interlineado 1,5)
+\renewcommand{\baselinestretch}{1.15}
+\parskip=6pt
+
+% DEFINICIÓN DE COLORES para portada y listados de código
+\usepackage[table]{xcolor}
+\definecolor{azulUC3M}{RGB}{0,0,102}
+\definecolor{gray97}{gray}{.97}
+\definecolor{gray75}{gray}{.75}
+\definecolor{gray45}{gray}{.45}
+
+% Soporte para GENERAR PDF/A --es importante de cara a su inclusión en e-Archivo porque es el formato óptimo de preservación y a la generación de metadatos, tal y como se describe en http://uc3m.libguides.com/ld.php?content_id=31389625. 
+
+% En la plantilla incluimos el archivo OUTPUT.XMPDATA. Puedes descargar este archivo e incluir los metadatos que se incorporarán al archivo PDF cuando compiles el archivo memoria.tex. Después vuelve a subirlo a tu proyecto. 
+\usepackage[a-1b]{pdfx}
+
+% ENLACES
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,
+	linkcolor=black, % enlaces a partes del documento (p.e. índice) en color negro
+	urlcolor=blue} % enlaces a recursos fuera del documento en azul
+
+% EXPRESIONES MATEMÁTICAS
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+
+% Codificación caracteres
+\usepackage{txfonts} 
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% Definición idioma español
+\usepackage[spanish, es-tabla]{babel} 
+\usepackage[babel, spanish=spanish]{csquotes}
+\AtBeginEnvironment{quote}{\small}
+
+% diseño de PIE DE PÁGINA
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\rfoot{\thepage}
+\fancypagestyle{plain}{\pagestyle{fancy}}
+
+% DISEÑO DE LOS TÍTULOS de las partes del trabajo (capítulos y epígrafes o subcapítulos)
+\usepackage{titlesec}
+\usepackage{titletoc}
+\titleformat{\chapter}[block]
+{\large\bfseries\filcenter}
+{\thechapter.}
+{5pt}
+{\MakeUppercase}
+{}
+\titlespacing{\chapter}{0pt}{0pt}{*3}
+\titlecontents{chapter}
+[0pt]                                               
+{}
+{\contentsmargin{0pt}\thecontentslabel.\enspace\uppercase}
+{\contentsmargin{0pt}\uppercase}                        
+{\titlerule*[.7pc]{.}\contentspage}                 
+
+\titleformat{\section}
+{\bfseries}
+{\thesection.}
+{5pt}
+{}
+\titlecontents{section}
+[5pt]                                               
+{}
+{\contentsmargin{0pt}\thecontentslabel.\enspace}
+{\contentsmargin{0pt}}
+{\titlerule*[.7pc]{.}\contentspage}
+
+\titleformat{\subsection}
+{\normalsize\bfseries}
+{\thesubsection.}
+{5pt}
+{}
+\titlecontents{subsection}
+[10pt]                                               
+{}
+{\contentsmargin{0pt}                          
+	\thecontentslabel.\enspace}
+{\contentsmargin{0pt}}                        
+{\titlerule*[.7pc]{.}\contentspage}  
+
+
+% DISEÑO DE TABLAS
+\usepackage{multirow} % permite combinar celdas 
+\usepackage{caption} % para personalizar el título de tablas y figuras
+\usepackage{floatrow} % utilizamos este paquete y sus macros \ttabbox y \ffigbox para alinear los nombres de tablas y figuras de acuerdo con el estilo definido.
+\usepackage{array} % con este paquete podemos definir en la siguiente línea un nuevo tipo de columna para tablas: ancho personalizado y contenido centrado
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\DeclareCaptionFormat{upper}{#1#2\uppercase{#3}\par}
+
+% Diseño de tabla para ingeniería
+\captionsetup*[table]{
+	format=upper,
+	name=TABLA,
+	justification=centering,
+	labelsep=period,
+	width=.75\linewidth,
+	labelfont=small,
+	font=small
+}
+
+% DISEÑO DE FIGURAS. 
+\usepackage{graphicx}
+\graphicspath{{imagenes/}} % ruta a la carpeta de imágenes
+
+% Diseño de figuras para ingeniería
+\captionsetup[figure]{
+	format=hang,
+	name=Fig.,
+	singlelinecheck=off,
+	labelsep=period,
+	labelfont=small,
+	font=small		
+}
+
+% NOTAS A PIE DE PÁGINA
+\usepackage{chngcntr} % para numeración continua de las notas al pie
+\counterwithout{footnote}{chapter}
+
+% LISTADOS DE CÓDIGO
+% soporte y estilo para listados de código. Más información en https://es.wikibooks.org/wiki/Manual_de_LaTeX/Listados_de_código/Listados_con_listings
+\usepackage{listings}
+
+% definimos un estilo de listings
+\lstdefinestyle{estilo}{ frame=Ltb,
+	framerule=0pt,
+	aboveskip=0.5cm,
+	framextopmargin=3pt,
+	framexbottommargin=3pt,
+	framexleftmargin=0.4cm,
+	framesep=0pt,
+	rulesep=.4pt,
+	backgroundcolor=\color{gray97},
+	rulesepcolor=\color{black},
+	%
+	basicstyle=\ttfamily\footnotesize,
+	keywordstyle=\bfseries,
+	stringstyle=\ttfamily,
+	showstringspaces = false,
+	commentstyle=\color{gray45},     
+	%
+	numbers=left,
+	numbersep=15pt,
+	numberstyle=\tiny,
+	numberfirstline = false,
+	breaklines=true,
+	xleftmargin=\parindent
+}
+
+\captionsetup*[lstlisting]{font=small, labelsep=period}
+% fijamos el estilo a utilizar 
+\lstset{style=estilo}
+\renewcommand{\lstlistingname}{\uppercase{Código}}
+
+
+%BIBLIOGRAFÍA 
+
+% CONFIGURACIÓN PARA LA BIBLIOGRAFÍA IEEE
+\usepackage[backend=biber, style=ieee, isbn=false,sortcites, maxbibnames=6, minbibnames=1]{biblatex} % Configuración para el estilo de citas de IEEE, recomendado para el área de ingeniería. "maxbibnames" indica que a partir de 6 autores trunque la lista en el primero (minbibnames) y añada "et al." tal y como se utiliza en el estilo IEEE.
+
+% Añadimos las siguientes indicaciones para mejorar la adaptación del estilos en español
+\DefineBibliographyStrings{spanish}{%
+	andothers = {et\addabbrvspace al\adddot}
+}
+\DefineBibliographyStrings{spanish}{
+	url = {\adddot\space[En línea]\adddot\space Disponible en:}
+}
+\DefineBibliographyStrings{spanish}{
+	urlseen = {Acceso:}
+}
+\DefineBibliographyStrings{spanish}{
+	pages = {pp\adddot},
+	page = {p.\adddot}
+}
+
+\addbibresource{referencias.bib} % llama al archivo referencias.bib en el que deberá estar la bibliografía utilizada
+
+
+% LISTA DE ABREVIATURAS (auto-generada con glossaries-extra)
+\usepackage[automake,acronym,nomain]{glossaries-extra}
+\makeglossaries
+
+% Definición de cada abreviatura: \newacronym{etiqueta}{SIGLA}{Forma desarrollada}
+\newacronym{tfg}{TFG}{Trabajo de Fin de Grado}
+\newacronym{uc3m}{UC3M}{Universidad Carlos III de Madrid}
+\newacronym{nasa}{NASA}{National Aeronautics and Space Administration}
+\newacronym{jpl}{JPL}{Jet Propulsion Laboratory}
+\newacronym{mlp}{MLP}{Perceptrón Multicapa (\textit{Multilayer Perceptron})}
+\newacronym{auc}{AUC}{Área Bajo la Curva (\textit{Area Under the Curve})}
+\newacronym{roc}{ROC}{Característica Operativa del Receptor (\textit{Receiver Operating Characteristic})}
+\newacronym{csv}{CSV}{Valores Separados por Comas (\textit{Comma-Separated Values})}
+\newacronym{api}{API}{Interfaz de Programación de Aplicaciones (\textit{Application Programming Interface})}
+\newacronym{gui}{GUI}{Interfaz Gráfica de Usuario (\textit{Graphical User Interface})}
+\newacronym{pdf}{PDF}{Formato de Documento Portátil (\textit{Portable Document Format})}
+\newacronym{neo}{NEO}{Near Earth Object}
+\newacronym{esa}{ESA}{European Space Agency}
+
+%-------------
+%	DOCUMENTO
+%-------------
+
+\begin{document}
+\pagenumbering{roman} % Se utilizan cifras romanas en la numeración de las páginas previas al cuerpo del trabajo
+	
+%----------
+%	PORTADA
+%----------	
+\begin{titlepage}
+	\begin{sffamily}
+	\color{azulUC3M}
+	\begin{center}
+		\begin{figure}[H] %incluimos el logotipo de la Universidad
+			\makebox[\textwidth][c]{\includegraphics[width=16cm]{logo_UC3M.png}}
+		\end{figure}
+		\vspace{2.5cm}
+		\begin{Large}
+			Grado en Ingeniería Informática\\
+			Campus de Colmenarejo\\
+			 2025-2026\\ %Indica el curso académico
+			\vspace{2cm}		
+			\textsl{Trabajo Fin de Grado}
+			\bigskip
+			
+		\end{Large}
+		 	{\Huge ``Clasificación de riesgo de impacto de asteroides mediante Redes Neuronales Artificiales''}\\
+		 	\vspace*{0.5cm}
+	 		\rule{10.5cm}{0.1mm}\\
+			\vspace*{0.9cm}
+			{\LARGE Rodrigo García Salado}\\ 
+			\vspace*{1cm}
+		\begin{Large}
+			Tutor\\
+			Antonio Berlanga\\
+			Colmenarejo, 2026\\
+		\end{Large}
+	\end{center}
+	\vfill
+	\color{black}
+	% SI NUESTRO TRABAJO SE VA A PUBLICAR CON UNA LICENCIA CREATIVE COMMONS, INCLUIR ESTAS LÍNEAS. ES LA OPCIÓN RECOMENDADA.
+	\includegraphics[width=4.2cm]{creativecommons.png}\\ %incluimos el logotipo de Creative Commons
+	Esta obra se encuentra sujeta a la licencia Creative Commons \textbf{Reconocimiento - No Comercial - Sin Obra Derivada}
+	\end{sffamily}
+\end{titlepage}
+
+\newpage %página en blanco o de cortesía
+\thispagestyle{empty}
+\mbox{}
+
+%----------
+%	RESUMEN Y PALABRAS CLAVE
+%----------	
+\renewcommand\abstractname{\large\bfseries\filcenter\uppercase{Resumen}}
+\begin{abstract}
+\thispagestyle{plain}
+\setcounter{page}{3}
+	
+	El presente \gls{tfg} aborda el diseño, desarrollo y evaluación de un sistema automatizado de clasificación supervisada orientado a predecir el riesgo de seguimiento de asteroides que se aproximan a la Tierra.
+	
+	Para alcanzar este propósito, se ha implementado un flujo de trabajo de ingeniería del software estructurado y modular que abarca todo el ciclo de vida del dato. A raíz del alto volumen de los datos se ha implementado un sistema que integra componentes automatizados para la limpieza de ruido, el tratamiento del desbalanceo de clases y la transformación avanzada de características numéricas mediante pipelines, incluyendo una estrategia de validación agrupada por identificador de asteroide que evita la fuga de información (\textit{data leakage}) entre los conjuntos de entrenamiento y prueba. El núcleo predictivo se fundamenta en un modelo de Perceptrón Multicapa, cuya arquitectura e hiperparámetros se han optimizado de forma sistemática empleando una búsqueda en rejilla combinada con validación cruzada, maximizando la métrica F1 por su idoneidad frente al desbalanceo de clases observado. El rendimiento de la red neuronal se ha contrastado cuantitativamente frente a modelos predictivos clásicos de referencia en un conjunto de prueba disjunto, garantizando la reproducibilidad del experimento mediante semillas deterministas. Finalmente, el software desarrollado incorpora un módulo de diagnóstico capaz de exportar de manera autónoma análisis visuales de rendimiento y persistir el modelo óptimo en archivos binarios, consolidando una herramienta informática robusta y reutilizable para el análisis de riesgos aeroespaciales.
+	
+	\bigskip
+	\textbf{Palabras clave:}
+	Aprendizaje automático, Redes neuronales artificiales, Clasificación supervisada, Asteroides, Sentry, Desbalanceo de clases, Validación de datos.
+	
+	\vfill
+\end{abstract}
+	\newpage % página en blanco o de cortesía
+	\thispagestyle{empty}
+	\mbox{}
+
+
+%----------
+%	DEDICATORIA
+%----------	
+\chapter*{Dedicatoria} % \chapter* evita que aparezca en el índice
+
+\setcounter{page}{5}
+	
+	% ESCRIBIR LA DEDICATORIA AQUÍ	
+		
+	\vfill
+	
+	\newpage % página en blanco o de cortesía
+	\thispagestyle{empty}
+	\mbox{}
+	
+
+%----------
+%	ÍNDICES
+%----------	
+
+%--
+% Índice general
+%-
+\tableofcontents
+\thispagestyle{fancy}
+
+\newpage % página en blanco o de cortesía
+\thispagestyle{empty}
+\mbox{}
+
+%--
+% Índice de figuras. Si no se incluyen, comenta las líneas siguientes
+%-
+\listoffigures
+\thispagestyle{fancy}
+
+\newpage % página en blanco o de cortesía
+\thispagestyle{empty}
+\mbox{}
+
+%--
+% Índice de tablas
+%-
+\listoftables
+\thispagestyle{fancy}
+
+\newpage % página en blanco o de cortesía
+\thispagestyle{empty}
+\mbox{}
+
+%--
+% Índice de abreviaturas
+%-
+
+\printglossary[type=\acronymtype, title={LISTA DE ABREVIATURAS}, style=long]
+\thispagestyle{fancy}
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\clearpage
+\pagenumbering{arabic}
+
+%----------
+%	MEMORIA
+%----------	
+\clearpage
+\pagenumbering{arabic} % numeración con números arábigos para el resto de la memoria.	
+
+\chapter{Introducción}
+
+\section{Motivación}
+
+Siempre me he considerado una persona curiosa, inquieta a la hora de investigar y más aún en trabajos de gran magnitud como puede ser el \gls{tfg}, por ese motivo quise tratar de unir lo aprendido a lo largo de la carrera con un elemento nuevo para mí, la física. La complejidad de estudiar algo que no manejo no es superior a la satisfacción de acabarlo y realizarlo correctamente, por ello este último año he logrado dedicar a este trabajo el tiempo y atención que merece un proyecto de esta escala.
+
+\section{Contexto del problema}
+ 
+Cada noche cientos de telescopios repartidos por todo el mundo barren el cielo en busca de rocas espaciales que se mueven a altas velocidades. No son estrellas, no son planetas: son asteroides, y algunos de ellos tienen órbitas que, en algún momento de los próximos cien años, podrían cruzarse con la de la Tierra. No es ciencia ficción. Es una tarea que la comunidad científica lleva a cabo de forma sistemática y rutinaria desde hace décadas, y que ha adquirido una nueva dimensión a medida que los telescopios se han vuelto más potentes y los catálogos de objetos conocidos han crecido de forma exponencial.
+ 
+Los asteroides que se acercan a nuestro planeta reciben el nombre de objetos cercanos a la Tierra, más conocidos por sus siglas en inglés: \gls{neo}. La gran mayoría de ellos son completamente inofensivos: pasan a distancias enormes, son demasiado pequeños para sobrevivir al roce con la atmósfera o sencillamente sus trayectorias no representan ningún riesgo en horizontes de tiempo relevantes. Sin embargo, una pequeña fracción de este catálogo ---cada vez más numeroso, con más de treinta mil objetos catalogados a fecha de hoy--- requiere un seguimiento especial, bien por su tamaño, bien por la incertidumbre de su órbita, bien por la combinación de ambos factores. El evento de Chelyabinsk en 2013, en el que un asteroide de unos veinte metros de diámetro explotó en la atmósfera sobre Rusia causando más de mil heridos, o el devastador impacto de Tunguska en 1908, son recordatorios históricos de que este seguimiento no es un ejercicio académico, sino una cuestión de seguridad planetaria real.
+ 
+El problema de fondo, sin embargo, no es simplemente detectar estos objetos, sino entender con precisión suficiente su órbita futura. Y aquí es donde la astronomía se convierte en un problema de datos. Cada vez que un telescopio observa un asteroide, registra su posición en el cielo en un instante concreto. A partir de un conjunto de estas observaciones, los astrónomos calculan la órbita más probable del objeto, pero esa órbita siempre lleva asociada una incertidumbre: las mediciones no son perfectas, los modelos físicos tienen limitaciones, y pequeñas perturbaciones gravitacionales de otros planetas pueden alterar la trayectoria a lo largo del tiempo. El resultado es que la pregunta ``¿chocará este asteroide con la Tierra?'' no tiene, en la mayoría de los casos, una respuesta binaria limpia, sino una distribución de probabilidades que evoluciona a medida que se incorporan nuevas observaciones.
+ 
+Para gestionar esta incertidumbre de forma automatizada y a escala, agencias espaciales como la \gls{nasa} y la \gls{esa} han desarrollado sistemas de evaluación de riesgo que procesan continuamente las órbitas de los objetos conocidos y publican listas de seguimiento actualizadas. El sistema Sentry del \gls{jpl} es el más conocido a nivel mundial: analiza decenas de miles de asteroides y publica aquellos cuya órbita no permite descartar matemáticamente, con los datos disponibles, un impacto en los próximos cien años. Entrar en esa lista no significa que el asteroide vaya a chocar, sino que merece atención prioritaria hasta que nuevas observaciones permitan acotar mejor su trayectoria y, en la mayoría de los casos, descartarlo definitivamente.
+ 
+Es en este contexto donde el Aprendizaje Automático, y en particular las Redes Neuronales Artificiales, ofrecen una perspectiva complementaria e innovadora. El Aprendizaje Automático es, en esencia, la disciplina que enseña a un modelo de aprender de unos datos: en lugar de programar explícitamente todas las reglas que determinan si un asteroide es peligroso, se le muestran miles de ejemplos de asteroides con sus características físicas y orbitales ya etiquetados, y el algoritmo aprende por sí solo qué combinaciones de esas características están asociadas a un mayor o menor nivel de riesgo. Es el mismo principio que permite a un servicio de streaming recomendar películas, a un banco detectar transacciones fraudulentas o a un médico apoyarse en una herramienta de diagnóstico asistido por imagen: encontrar patrones en grandes volúmenes de datos que serían imposibles de procesar manualmente con la velocidad y consistencia que la situación exige.
+ 
+Las Redes Neuronales Artificiales son una familia concreta de algoritmos de Aprendizaje Automático vagamente inspirada en el funcionamiento del cerebro humano. Se organizan en capas de nodos interconectados que transforman progresivamente la información de entrada hasta producir una predicción de salida, y son especialmente potentes cuando las relaciones entre las variables de entrada y la variable que se quiere predecir son complejas y no lineales, como sucede en el dominio orbital. Este trabajo explora precisamente esa posibilidad: construir y optimizar una red neuronal capaz de aprender, a partir de los datos históricos del catálogo de aproximaciones de la \gls{nasa}, qué asteroides tienen características coherentes con los que están bajo seguimiento activo de riesgo de impacto, contribuyendo así, desde una perspectiva estadística y complementaria, al ecosistema de herramientas de vigilancia planetaria existente.
+
+\section{Objetivos}
+
+Este \gls{tfg} tiene como objetivo general desarrollar, optimizar y evaluar un sistema de clasificación supervisada fundamentado en técnicas de Aprendizaje Automático y, en particular, en Redes Neuronales Artificiales, con el propósito de predecir si un asteroide en aproximación a la Tierra es incluido en la lista de seguimiento de riesgo de impacto Sentry de la \gls{nasa} (\textit{on\_sentry\_list}). Este objetivo general responde a la necesidad de transformar información orbital y física ---habitualmente dispersa y de difícil interpretación inmediata--- en una estimación categórica clara y accionable que permita priorizar la atención sobre los eventos potencialmente más relevantes.
+
+Cabe señalar que el planteamiento original de este objetivo contemplaba modelar un índice de pánico (\textit{panic\_level}) diseñado \textit{ad hoc} por el autor del dataset original de Kaggle. No obstante, como parte del propio proceso de ingeniería de datos, se llevó a cabo un análisis de correlación entre dicha variable y el resto de magnitudes físicas y orbitales disponibles, detectándose que \textit{panic\_level} dependía de forma casi determinista de la distancia de aproximación, sin apenas relación con el tamaño del objeto ni con la probabilidad de impacto real reportada por el sistema Sentry. Este hallazgo llevó a descartar dicha variable por carecer de fundamento físico suficiente y a reorientar el objetivo del trabajo hacia \textit{on\_sentry\_list}, una variable de naturaleza real y verificable, lo que constituye en sí mismo un ejercicio relevante de validación crítica de los datos previo al modelado, una etapa habitualmente decisiva en cualquier proyecto de Aprendizaje Automático aplicado.
+
+Para alcanzar este propósito, el trabajo se articula en torno a una serie de objetivos específicos que cubren de manera secuencial todo el ciclo de vida del proyecto de \textit{Machine Learning}, desde la preparación de los datos hasta la persistencia del modelo final.
+
+\section{Alcance}
+
+El alcance de este TFG queda delimitado por un conjunto de fronteras claras que definen tanto las tareas que se abordan de manera efectiva como aquellas que, de forma deliberada, quedan excluidas del desarrollo. Esta delimitación resulta esencial para mantener el proyecto centrado en la construcción, modelado y validación experimental de un sistema de clasificación, evitando la dispersión de esfuerzos hacia tareas de naturaleza ajena a los objetivos planteados.
+
+Dentro del alcance del proyecto se incluye, en primer lugar, la fase de ingeniería y procesamiento del conjunto de datos. Esto comprende la manipulación analítica, el tratamiento del desbalance de clases y la imputación de valores ausentes exclusivamente sobre la información almacenada de forma estática en el archivo \texttt{dataset\_final.csv}. No se contempla ninguna ampliación dinámica de este conjunto de datos durante la ejecución del proyecto, trabajando siempre sobre una fotografía fija de la información disponible pero con la capacidad de aplicar el modelo a instancias nuevas en cualquier momento.
+
+En cuanto a las variables consideradas para el modelado, el alcance abarca exclusivamente el tratamiento de características numéricas. Se incluye el análisis y escalado de las propiedades físicas y orbitales del evento astronómico, abarcando componentes temporales (año, mes y días hasta la aproximación), distancias geométricas, velocidades relativas, magnitud absoluta y diámetro estimado del objeto, así como los vectores cinemáticos tridimensionales de posición y velocidad del asteroide y de posición de la Tierra, calculados 30 días antes del instante de máxima aproximación (\textit{close approach}). Estos vectores se incorporan al modelo predictivo y, adicionalmente, sirven de base para un estudio descriptivo complementario de las órbitas de los objetos analizados.
+
+Por el contrario, las variables derivadas directamente del sistema Sentry de la \gls{nasa} (\textit{sentry\_impact\_prob}, \textit{sentry\_torino\_scale}, \textit{sentry\_palermo\_scale} y \textit{sentry\_diameter\_km}) quedan deliberadamente excluidas del conjunto de variables predictoras, al constituir una fuente de fuga de información (\textit{data leakage}): dichas variables solo presentan valores no nulos precisamente para los asteroides que pertenecen a la lista Sentry, por lo que su inclusión como predictores equivaldría a filtrar al modelo, de forma indirecta, la propia etiqueta que se pretende predecir. Por el mismo motivo, queda fuera del alcance la codificación de variables categóricas derivadas del planteamiento original (\textit{threat\_category}), al fundamentarse en el mismo criterio que el índice de pánico descartado.
+
+Desde la perspectiva de la ingeniería del software y la metodología experimental, el alcance exige el diseño de una solución modular mediante componentes de transformación y preprocesamiento (\textit{pipelines}) automatizados. Asimismo, se incluye el diseño y la ejecución de una estrategia de validación estadística basada en la partición de los datos en conjuntos independientes de entrenamiento y prueba, agrupada por identificador de asteroide para evitar que un mismo objeto ---registrado en múltiples filas correspondientes a distintas fechas de aproximación--- aparezca simultáneamente en ambos conjuntos. Dentro de este marco, entra la optimización sistemática del Perceptrón Multicapa, así como la implementación y evaluación de modelos predictivos clásicos de referencia (árboles de decisión, regresión logística y bosques aleatorios) para actuar como base comparativa. Finalmente, se incluye el desarrollo de un módulo de diagnóstico capaz de calcular métricas globales adecuadas al desbalanceo de clases presente en los datos (\textit{F1-score}, \textit{precision}, \textit{recall}, \textit{Accuracy}, \textit{Balanced Accuracy} y el área bajo la curva \gls{roc}) y exportar de forma automatizada representaciones gráficas del rendimiento en formato \texttt{.png}.
+
+Por contraposición, quedan explícitamente fuera del alcance del proyecto las siguientes líneas de trabajo:
+\begin{itemize}
+    \item \textbf{Adquisición de datos en tiempo real:} El proyecto no incorpora conexiones activas a \gls{api}s astronómicas externas (como las de la \gls{nasa} o la ESA) ni recurre a técnicas de \textit{web scraping} para la recolección de nuevas observaciones en vivo; el trabajo está estrictamente acotado al archivo \gls{csv} local.
+    \item \textbf{Procesamiento de texto libre e identificadores cualitativos:} Se excluye el procesamiento de variables textuales o identificadores meramente descriptivos (como \textit{asteroid\_designation}, \textit{asteroid\_fullname}, \textit{close\_approach\_date} o el veredicto cualitativo \textit{panic\_verdict}), dado que no aportaban la suficiente información o podían llegar a filtrar datos de la variable objetivo al modelo en su fase de entrenamiento.
+    \item \textbf{Uso de variables derivadas del propio sistema Sentry como predictoras:} Tal como se ha justificado anteriormente, las variables \textit{sentry\_impact\_prob}, \textit{sentry\_torino\_scale}, \textit{sentry\_palermo\_scale} y \textit{sentry\_diameter\_km} quedan excluidas del conjunto de variables predictoras por constituir fuga de información directa respecto a la variable objetivo.
+    \item \textbf{Despliegue e Interfaz de Usuario:} Queda fuera del alcance el desarrollo de cualquier interfaz gráfica de usuario (\gls{gui}), aplicación web o móvil, o el despliegue de los modelos como servicios \gls{api} en la nube para entornos de producción. El proyecto concluye con la validación experimental local y la persistencia de los modelos entrenados en archivos binarios \texttt{.pkl}.
+\end{itemize}
+
+
+\chapter{Estado del Arte}  
+
+\section{El problema de la detección y seguimiento de riesgo de impacto}
+
+Los asteroides cercanos a la Tierra, conocidos como Near-Earth Objects (NEO), constituyen un objeto de estudio de creciente interés tanto científico como de seguridad planetaria. Eventos históricos documentados, como el impacto de Tunguska en 1908 y el evento de Chelyabinsk en 2013, han puesto de manifiesto la necesidad de sistemas de vigilancia capaces de identificar de forma temprana objetos potencialmente peligrosos \cite{mondal2025multimodel}.
+
+Para abordar esta necesidad, el Jet Propulsion Laboratory (\gls{jpl}) de la \gls{nasa} mantiene el sistema Sentry, un mecanismo de monitorización que evalúa de forma continua las órbitas de los asteroides conocidos y calcula la probabilidad de que alguno de ellos pueda colisionar con la Tierra en los próximos cien años \cite{cneos_sentry_intro}. La cuantificación técnica de este riesgo se apoya en dos escalas complementarias: la escala de Torino, concebida como herramienta de comunicación simplificada hacia el público general, y la escala de Palermo, de naturaleza técnica, que combina la probabilidad de impacto, la energía cinética del evento y su proximidad temporal en un único valor logarítmico \cite{chesley2002palermo}. Un asteroide entra a formar parte de la lista de seguimiento Sentry únicamente cuando, tras propagar su órbita considerando la incertidumbre observacional asociada, no puede descartarse matemáticamente una trayectoria de impacto \cite{cneos_sentry_intro}. Esta circunstancia, como se discute en el capítulo de Metodología de este trabajo, resulta determinante para comprender qué variables físicas y orbitales son relevantes a la hora de modelar la pertenencia de un objeto a dicha lista.
+
+\section{Métodos clásicos de determinación orbital y evaluación de riesgo}
+ 
+La estimación de la trayectoria de un asteroide y la evaluación de su riesgo de impacto no se resuelven con un único algoritmo, sino mediante la combinación sucesiva de distintas aproximaciones que van reduciendo progresivamente la incertidumbre asociada a la órbita. Comprender este ecosistema de métodos clásicos es imprescindible para situar correctamente la aportación estadística de este trabajo dentro del panorama actual de la vigilancia planetaria.
+ 
+\subsection{Dinámica de dos cuerpos y elementos orbitales}
+ 
+El punto de partida de cualquier análisis orbital es el modelo de dos cuerpos, formulado a partir de las leyes de gravitación de Newton y resuelto analíticamente por Kepler. En este modelo, se asume que el movimiento del asteroide está determinado únicamente por la atracción gravitatoria del Sol, ignorando la influencia del resto de planetas y cuerpos del sistema solar. Bajo esta hipótesis simplificadora, la órbita del objeto queda completamente descrita por seis parámetros denominados elementos orbitales clásicos o keplerianos: el semieje mayor, la excentricidad, la inclinación, la longitud del nodo ascendente, el argumento del perihelio y la anomalía media en un instante de referencia \cite{battin1999introduction}. Este conjunto de seis números define una elipse fija en el espacio y permite propagar analíticamente la posición del objeto en cualquier instante futuro con un coste computacional mínimo, lo que convierte al modelo kepleriano en la base universal sobre la que se construyen todos los análisis orbitales posteriores.
+ 
+No obstante, para objetos cuya órbita se extiende durante décadas o cuya trayectoria pasa cerca de planetas masivos, el modelo de dos cuerpos resulta insuficiente. Las aceleraciones perturbadoras debidas a la influencia gravitatoria de Júpiter, Saturno y, en menor medida, del resto de planetas del sistema solar, introducen desviaciones progresivas respecto a la órbita kepleriana pura que se acumulan con el tiempo y que, ignoradas, conducen a predicciones posicionales erróneas en horizontes temporales de años o décadas.
+ 
+\subsection{Propagadores numéricos y modelos de perturbaciones}
+ 
+Para superar las limitaciones del modelo kepleriano, los propagadores de alta precisión integran numéricamente las ecuaciones del movimiento del asteroide teniendo en cuenta las perturbaciones gravitacionales de los principales cuerpos del sistema solar, así como efectos no gravitacionales como la presión de radiación solar y, para objetos suficientemente pequeños, el efecto Yarkovsky, una fuerza de origen térmico que produce una aceleración neta débil pero acumulativa que puede alterar significativamente la órbita a lo largo de décadas \cite{vokrouhlicky2015yarkovsky}. Los códigos de referencia en este campo, como el integrador numérico \texttt{OrbFit} utilizado por el sistema CLOMON2 de la ESA o el núcleo de propagación del sistema Sentry del \gls{jpl}, implementan integradores de paso variable de alto orden (típicamente métodos de Runge-Kutta-Nyström o Adams-Bashforth-Moulton) capaces de propagar órbitas durante siglos con una precisión posicional del orden de metros o kilómetros, según la calidad de las observaciones disponibles.
+ 
+La determinación de la órbita a partir de las observaciones telescópicas es en sí misma un problema de ajuste estadístico: dado un conjunto de posiciones angulares medidas en distintos instantes, se buscan los seis elementos orbitales que minimizan el residuo entre las posiciones predichas y las observadas, típicamente mediante mínimos cuadrados ponderados. La incertidumbre de este ajuste se propaga hacia adelante en el tiempo, de forma que la órbita no se representa como una única trayectoria determinista sino como una distribución de probabilidad en el espacio de estados, habitualmente aproximada por una elipsoide de incertidumbre en el espacio de elementos orbitales.
+ 
+\subsection{Métodos estadísticos y Monte Carlo: de la órbita a la probabilidad de impacto}
+ 
+La pregunta que más interesa desde el punto de vista de la seguridad planetaria no es ``¿cuál es la órbita exacta del asteroide?'' sino ``¿qué probabilidad existe de que esa órbita cruce la de la Tierra en algún momento futuro?''. Para responderla, los sistemas modernos de evaluación de riesgo como Sentry y CLOMON2 recurren a métodos de Monte Carlo: en lugar de propagar una única órbita nominal, se generan miles o millones de órbitas virtuales, llamadas variantes virtuales o clones, muestreadas de forma aleatoria a partir de la distribución de incertidumbre orbital estimada, y se propaga cada una de ellas de forma independiente durante el horizonte temporal de análisis \cite{milani1999theory}. La fracción de esas órbitas virtuales que conduce a una colisión con la Tierra en un instante dado constituye la estimación de la probabilidad de impacto para ese evento concreto.
+ 
+Este enfoque de Monte Carlo es computacionalmente intensivo pero estadísticamente robusto y, sobre todo, no requiere asumir ninguna forma funcional específica para la distribución de incertidumbre, lo que lo hace especialmente adecuado para objetos con órbitas fuertemente perturbadas o con resonancias de baja velocidad con la Tierra. El resultado final del proceso es una tabla de potenciales impactos futuros para cada asteroide analizado, cada uno caracterizado por una fecha, una probabilidad de ocurrencia y un valor en las escalas de Torino y Palermo, que sintetizan el riesgo combinando la probabilidad con la energía cinética del evento.
+ 
+\subsection{Integración de aproximaciones y posicionamiento de este trabajo}
+ 
+Los sistemas operacionales actuales de vigilancia planetaria no se apoyan en ninguna de estas aproximaciones de forma exclusiva, sino que las combinan de manera secuencial y complementaria. La detección telescópica proporciona las observaciones brutas; la determinación orbital por mínimos cuadrados convierte esas observaciones en elementos orbitales con su incertidumbre asociada; la propagación numérica con perturbaciones extiende esa órbita hacia el futuro; y el análisis de Monte Carlo cuantifica finalmente la probabilidad de impacto a partir de la distribución de variantes virtuales. El sistema Sentry del \gls{jpl} y el sistema CLOMON2 de la \gls{esa} implementan exactamente esta cadena de procesamiento de forma automatizada y continua sobre el catálogo completo de \gls{neo} conocidos.
+ 
+Dentro de este contexto, es importante subrayar que el presente trabajo no pretende reemplazar ninguno de estos eslabones de la cadena, sino añadir una perspectiva complementaria de naturaleza estadística y basada en el reconocimiento de patrones. Los enfoques descritos hasta aquí buscan determinar la trayectoria concreta de un objeto específico a partir de sus observaciones, un problema de estimación física. El enfoque de este \gls{tfg}, por el contrario, parte de los datos históricos agregados de miles de aproximaciones ya registradas y busca aprender qué combinaciones de características físicas y orbitales ---velocidad, distancia, tamaño, geometría del encuentro--- son estadísticamente coherentes con los objetos que han requerido seguimiento activo de riesgo, un problema de clasificación supervisada.
+ 
+Es igualmente relevante precisar en qué categoría de problema se enmarca esta aproximación dentro del espectro de tareas que aborda la literatura de aprendizaje automático aplicado a asteroides. Cabe distinguir al menos cuatro formulaciones diferentes: la predicción de parámetros orbitales, que busca estimar los elementos de la órbita futura de un objeto a partir de observaciones pasadas; la clasificación binaria de peligrosidad, que etiqueta cada asteroide simplemente como peligroso o no peligroso; la estimación de probabilidad de impacto, que produce una salida continua interpretable como riesgo cuantitativo; y la clasificación ordinal de nivel de riesgo, que asigna el objeto a una de varias categorías ordenadas de menor a mayor gravedad. Este \gls{tfg} se encuadra en esta última formulación: la variable objetivo \textit{on\_sentry\_list} define una clasificación binaria con un fuerte desbalance de clases que refleja la propia rareza del fenómeno, pero el planteamiento metodológico y el conjunto de variables seleccionadas están diseñados para ser extensibles a formulaciones ordinales más ricas en cuanto se disponga de una variable objetivo de nivel de riesgo con suficiente representación estadística de todas las clases.
+
+
+\section{Determinación y predicción orbital mediante aprendizaje automático}
+
+Una primera línea de investigación relevante para este trabajo es la que aplica técnicas de aprendizaje automático a la propagación y refinamiento de órbitas de objetos espaciales, un problema tradicionalmente abordado mediante métodos analíticos como SGP4/SDP4 o propagadores de alta precisión (HPOP).
+
+En este sentido, destaca el trabajo de \cite{pasko2018prediction}, que emplea aprendizaje automático para predecir parámetros orbitales de asteroides potencialmente peligrosos aún no descubiertos, ampliando el catálogo de objetos sobre los que pueden aplicarse técnicas de evaluación de riesgo. Por su parte, diversos estudios sobre determinación orbital comparan arquitecturas de redes densas, recurrentes (GRU) y residuales para predecir las componentes de los elementos orbitales (TLE) de satélites a partir de observaciones previas, evaluando configuraciones que predicen las coordenadas de forma conjunta frente a modelos especializados por componente. Estos trabajos coinciden en que el entrenamiento de modelos independientes para cada eje o variable orbital, combinado con horizontes de predicción cortos, mejora sustancialmente la precisión obtenida, alcanzando tasas de acierto superiores al 90\% frente a los métodos analíticos clásicos.
+
+Una aproximación distinta es la que ofrecen las Redes Neuronales Informadas por la Física (Physics-Informed Neural Networks, PINN), que incorporan las ecuaciones del movimiento orbital directamente en la función de pérdida del modelo, de forma que la red no solo ajusta los datos observados sino que respeta las leyes físicas subyacentes. Esta familia de modelos, implementada habitualmente mediante arquitecturas de una sola capa (Extreme Learning Machine), presenta la ventaja de no requerir una estimación inicial precisa de la órbita y de generar una función continua de la trayectoria, en lugar de predicciones puntuales discretas, si bien su aplicación se ha centrado en la determinación de órbita a escala de metros y no en la clasificación de riesgo.
+
+Estas aportaciones resultan especialmente pertinentes para la componente de este TFG que incorpora los vectores cinemáticos de posición y velocidad del asteroide y de la Tierra treinta días antes de la aproximación máxima, empleados tanto como variables predictoras del modelo de clasificación como base para un estudio descriptivo complementario de las órbitas analizadas.
+
+\section{Clasificación de riesgo y peligrosidad de asteroides mediante aprendizaje automático}
+
+La segunda línea de investigación, más directamente alineada con el objetivo central de este TFG, comprende los trabajos que abordan la clasificación de asteroides como peligrosos o no peligrosos mediante algoritmos de aprendizaje supervisado, un planteamiento estructuralmente equivalente a la predicción de pertenencia a la lista Sentry que se desarrolla en este trabajo.
+
+\cite{hefele2020identifying} desarrollaron un Identificador de Objetos Peligrosos (Hazardous Object Identifier, HOI) basado en redes neuronales artificiales, alcanzando una precisión del 95,25\% en la identificación de objetos peligrosos simulados. Asimismo, \cite{linares2016space} implementaron un clasificador de objetos espaciales basado en redes neuronales convolucionales, obteniendo una precisión del 99,6\%, si bien orientado al procesamiento de imágenes en lugar de parámetros orbitales tabulares.
+
+En un planteamiento muy próximo al de este TFG, Ranaweera y Fernando desarrollan un clasificador automático de asteroides potencialmente peligrosos empleando Máquinas de Vectores de Soporte, Regresión Logística, KNN y Perceptrón Multicapa, obteniendo una precisión del 90\%, mientras que Chhibber et al.\ comparan la eficacia de distintos modelos de aprendizaje automático sobre datos de la \gls{nasa} relativos a objetos potencialmente peligrosos, empleando árboles de decisión, boosted árboles de decisión, Máquinas de Vectores de Soporte y Regresión Logística, con una precisión media del 96\% \cite{mondal2025multimodel}.
+
+De manera más reciente, \cite{chandra2025enhanced} evalúa un conjunto de seis clasificadores ---Bosque Aleatorio, Gradient Boosting, Máquina de Vectores de Soporte, Análisis Discriminante Lineal, Regresión Logística y KNN--- sobre un problema de clasificación binaria de objetos peligrosos, empleando estrategias avanzadas de remuestreo para abordar el desbalanceo de clases característico de este tipo de catálogos. Los modelos de conjunto (Bosque Aleatorio y Gradient Boosting) obtuvieron los mejores resultados, con puntuaciones F2 de 0,987 y 0,986 respectivamente, frente a un rendimiento sensiblemente inferior de KNN más Próximos. Este trabajo resulta especialmente relevante para la presente memoria por compartir tanto la naturaleza del problema (clasificación binaria de riesgo) como buena parte de los algoritmos comparados (Bosque Aleatorio, Regresión Logística), si bien opta por la métrica F2, que pondera el recall por encima de la precisión en mayor medida que la métrica F1 empleada en este trabajo.
+
+Por último, \cite{mondal2025multimodel} proponen un enfoque híbrido que combina modelos de aprendizaje automático sobre datos tabulares (Regresión Logística, Árbol de Decisión, Bosque Aleatorio, XGBoost, Naïve Bayes, SVM y KNN) con modelos de aprendizaje profundo sobre imágenes de telescopio (CNN, EfficientNetB0 y VGG16), incorporando además técnicas de Inteligencia Artificial Explicable (SHAP, LIME) y detección de anomalías. Tras aplicar un proceso de preprocesado avanzado ---incluyendo imputación mediante KNN más Próximos, eliminación de valores atípicos con Isolation Forest y balanceo de clases mediante Synthetic Minority Over-sampling Technique (SMOTE)---, los autores reportan una precisión del 99\% con XGBoost y del 98\% con Bosque Aleatorio sobre los datos tabulares. Resulta de particular interés para este TFG que, en el análisis de importancia de variables mediante SHAP, los autores señalan la denominación textual del asteroide como la característica más influyente del modelo, una observación que debe interpretarse con cautela, ya que es plausible que dicha variable esté capturando de forma indirecta convenciones de nomenclatura ligadas al propio proceso de descubrimiento o catalogación del objeto, en lugar de una relación causal genuina con su peligrosidad. Esta circunstancia ilustra un riesgo metodológico ---la presencia de variables con apariencia predictiva que en realidad encubren una fuga de información o un artefacto del proceso de generación de los datos--- directamente relacionado con el hallazgo que motivó, en este mismo TFG, el descarte de la variable \textit{panic\_level} en favor de \textit{on\_sentry\_list} como variable objetivo, descrito en el capítulo de Metodología.
+
+\section{Fundamentos del Perceptrón Multicapa}
+
+El núcleo predictivo de este TFG se sustenta en el Perceptrón Multicapa (\gls{mlp}), una arquitectura de red neuronal artificial de propagación hacia adelante cuyos fundamentos se remontan al modelo del perceptrón propuesto por \cite{rosenblatt1958perceptron}. Un \gls{mlp} se compone de una capa de entrada, una o varias capas ocultas con funciones de activación no lineales y una capa de salida, entrenándose mediante el algoritmo de retropropagación del error para minimizar una función de pérdida sobre el conjunto de entrenamiento. Esta capacidad de aproximar relaciones no lineales entre las variables de entrada y la variable objetivo motiva su elección, en este trabajo, como modelo predictivo principal, en contraste con los modelos clásicos de referencia (Regresión Logística, Árbol de Decisión, Bosque Aleatorio) que actúan como línea base comparativa.
+
+\section{Desbalanceo de clases en problemas de clasificación astronómica}
+
+Un denominador común a la práctica totalidad de los trabajos de clasificación de riesgo NEO revisados en este capítulo es el fuerte desbalanceo entre la clase de objetos peligrosos y la de objetos no peligrosos, consecuencia directa de que, por su propia naturaleza, los asteroides con riesgo de impacto no descartable constituyen una proporción muy minoritaria del catálogo total de objetos conocidos. \cite{mondal2025multimodel} abordan esta circunstancia mediante la técnica de sobremuestreo sintético de la clase minoritaria (SMOTE), mientras que \cite{chandra2025enhanced} compara estrategias avanzadas de remuestreo y selecciona la métrica F2 como criterio de evaluación, al ponderar en mayor medida la capacidad del modelo para detectar correctamente la clase minoritaria (recall) frente a la proporción de falsos positivos.
+
+En este trabajo, descrito con detalle en el capítulo de Metodología, se opta por una estrategia distinta pero conceptualmente equivalente: en lugar de generar muestras sintéticas de la clase minoritaria, se emplean pesos de clase y de muestra (\texttt{class\_weight}, \texttt{sample\_weight}) durante el entrenamiento de los distintos modelos, y se selecciona la métrica F1 ---complementada con precision, recall y el área bajo la curva ROC (\gls{auc}-\gls{roc})--- como criterio de optimización y evaluación, evitando que la métrica de exactitud (Accuracy), engañosamente elevada en problemas con este grado de desbalanceo, oriente la selección del modelo final.
+
+\section{Posicionamiento de este TFG}
+
+A la vista de los trabajos revisados, este TFG se posiciona dentro de la línea de clasificación binaria de riesgo de asteroides mediante aprendizaje automático clásico y redes neuronales artificiales, compartiendo planteamiento metodológico con los trabajos de \cite{hefele2020identifying}, \cite{linares2016space}, \cite{chandra2025enhanced} y \cite{mondal2025multimodel}. Se diferencia de estos, sin embargo, en varios aspectos relevantes: en primer lugar, emplea como variable objetivo un dato de seguimiento de riesgo real y verificable ---la pertenencia a la lista Sentry de la \gls{nasa}--- en lugar de catálogos de peligrosidad ya etiquetados de antemano, lo que ha exigido un proceso explícito de validación crítica de los datos previo al modelado; en segundo lugar, incorpora información geométrica tridimensional del encuentro (vectores de posición y velocidad del asteroide y de la Tierra treinta días antes de la aproximación máxima) no presente en ninguno de los trabajos revisados; y en tercer lugar, presta especial atención a evitar la fuga de información entre conjuntos de entrenamiento y prueba mediante una estrategia de validación agrupada por identificador de asteroide, una precaución metodológica no mencionada explícitamente en los trabajos comparados.
+
+
+\chapter{Metodología}
+ 
+Este capítulo describe el proceso completo seguido para desarrollar el sistema de clasificación supervisada objeto de este \gls{tfg}, desde la obtención y preparación de los datos hasta la evaluación comparativa de los modelos entrenados. El trabajo se ha estructurado en tres módulos de software independientes, implementados en Python: un script de construcción y enriquecimiento del conjunto de datos (\texttt{CodigoPrepararBBDD.py}), un script de entrenamiento y evaluación de los modelos clásicos de referencia (\texttt{CodigoCompararModelos.py}) y un script dedicado al entrenamiento y optimización de la red neuronal (\texttt{CodigoRedNeuronal.py}). Esta separación modular facilita la reproducibilidad de cada etapa de forma independiente y permite actualizar o sustituir cualquier componente sin afectar al resto del flujo de trabajo.
+ 
+\section{Obtención y construcción del conjunto de datos}
+ 
+El punto de partida del proyecto es un conjunto de datos de aproximaciones de asteroides a la Tierra descargado de la plataforma Kaggle, que recoge información procedente del catálogo de objetos cercanos a la Tierra del \gls{jpl} de la \gls{nasa}. Este dataset original contenía variables físicas y orbitales básicas de cada evento de aproximación, como la distancia mínima en unidades astronómicas, la velocidad relativa, la magnitud absoluta o la probabilidad de impacto reportada por el sistema Sentry, pero carecía de información geométrica tridimensional del encuentro, imprescindible para caracterizar de forma completa la geometría orbital de cada evento.
+ 
+Para enriquecer el conjunto de datos con esta información, se desarrolló el script \texttt{CodigoPrepararBBDD.py}, que automatiza la consulta de los vectores cinemáticos de cada aproximación a través de la interfaz \texttt{Horizons} del \gls{jpl}, accesible mediante la clase homónima de la librería \texttt{astroquery} de Python. Para cada uno de los registros procesados ---las primeras 50.000 filas del dataset original, una vez eliminadas las entradas incompletas o ruidosas--- el script realiza dos consultas a JPL Horizons en la fecha concreta del acercamiento: una para el asteroide correspondiente y otra para la Tierra como cuerpo de referencia. De cada consulta se extraen los tres componentes del vector de posición y los tres componentes del vector de velocidad, calculados treinta días antes del instante de máxima aproximación (\textit{close approach}), tal y como los proporciona el sistema de efemérides vectoriales de Horizons. Estas seis columnas por cuerpo ---doce en total--- se incorporan al dataset junto con la magnitud absoluta $H$ descargada para cada objeto, que permite calcular de forma estándar una estimación del diámetro del asteroide a partir de su reflectividad asumida.
+ 
+Adicionalmente, el mismo script realiza una labor de saneamiento del dataset original: se eliminan las columnas de texto libre e identificadores descriptivos que no aportan capacidad predictiva o que introducen riesgo de fuga de información (como la designación del objeto, su nombre completo o la fecha exacta del acercamiento en formato cadena), se descartan las variables derivadas directamente del sistema Sentry que, como se describe en el capítulo de Alcance, constituyen una fuente directa de contaminación de la variable objetivo, y se filtra cualquier fila que, tras el proceso de enriquecimiento, presente valores ausentes en las columnas recién incorporadas. El resultado de este proceso es el archivo \texttt{dataset\_final.csv}, que constituye la única fuente de datos utilizada en las etapas posteriores de modelado.
+ 
+\section{Análisis y validación crítica de la variable objetivo}
+ 
+Una etapa determinante del proyecto, no prevista en el planteamiento original pero de gran relevancia metodológica, fue el análisis de correlación entre las variables disponibles y la variable objetivo inicialmente propuesta: un índice de pánico (\textit{panic\_level}) incluido en el dataset original de Kaggle y construido por su autor a partir de combinaciones de otras variables. El análisis reveló que dicha variable presentaba una dependencia casi determinista respecto a la distancia de aproximación, sin relación estadísticamente significativa con el tamaño del objeto ni con la probabilidad de impacto real reportada por el sistema Sentry. Esto implica que un modelo entrenado sobre (\textit{panic\_level}) no estaría aprendiendo a identificar asteroides genuinamente peligrosos, sino simplemente a reproducir una regla de umbral sobre la distancia, lo que carece de valor predictivo real desde el punto de vista de la seguridad planetaria.
+ 
+Este hallazgo motivó la reorientación del objetivo del trabajo hacia la variable \textit{on\_sentry\_list}, un indicador binario que refleja si el asteroide ha sido incluido en la lista de seguimiento activo del sistema Sentry de la \gls{nasa}, es decir, si su órbita no permite descartar matemáticamente un impacto en el horizonte de análisis. Esta variable es de naturaleza real y verificable, está directamente ligada al proceso físico que se pretende modelar y constituye un objetivo de clasificación con fundamento astronómico sólido. El proceso de validación crítica de la variable objetivo que condujo a este cambio es, en sí mismo, un ejercicio metodológico relevante que ilustra la importancia de la etapa de comprensión del dato previa a cualquier decisión de modelado.
+ 
+\section{Preprocesado y construcción del pipeline de transformación}
+ 
+Una vez consolidado el conjunto de datos final y definida la variable objetivo, el preprocesado de las variables predictoras se implementó como un pipeline automatizado de \textit{scikit-learn}, con el objetivo de garantizar que todas las transformaciones aplicadas sobre los datos de entrenamiento se aprendieran exclusivamente sobre ese conjunto y se aplicaran de forma ciega sobre los datos de test, evitando así cualquier fuga de información entre particiones.
+ 
+Dado que, tras el proceso de construcción y saneamiento del dataset descrito en la sección anterior, todas las variables seleccionadas como predictoras son de naturaleza numérica ---las columnas categóricas con potencial informativo relevante habían sido descartadas por los motivos expuestos en el capítulo de Alcance---, el preprocesador se implementó como un \texttt{ColumnTransformer} con un único bloque de transformación numérica (\texttt{num}). Dicho bloque aplica de forma secuencial dos transformaciones: en primer lugar, una imputación de valores ausentes mediante la mediana de cada variable calculada sobre el conjunto de entrenamiento, estrategia robusta frente a la presencia de valores atípicos; y en segundo lugar, una estandarización de cada variable mediante \texttt{StandardScaler}, que centra la distribución de cada característica en torno a media cero y la escala a varianza unitaria, requisito especialmente relevante para el correcto funcionamiento del \gls{mlp} y de los modelos basados en distancias.
+ 
+Este preprocesador se integra dentro de un objeto \texttt{Pipeline} de \textit{scikit-learn} que encadena la transformación con el modelo de clasificación correspondiente, de forma que el ajuste (\texttt{fit}) y la predicción (\texttt{predict}) de cada modelo se realizan siempre a través del pipeline completo, con las garantías metodológicas que ello implica.
+ 
+\section{Estrategia de validación y partición de los datos}
+ 
+La partición del conjunto de datos en subconjuntos de entrenamiento y prueba constituye una decisión metodológica de especial relevancia en este proyecto, debido a la naturaleza del dataset: un mismo asteroide puede aparecer registrado en múltiples filas, correspondientes a distintos eventos de aproximación a lo largo del tiempo. Una división aleatoria simple sin considerar esta estructura podría resultar en que filas de un mismo asteroide aparecieran simultáneamente en el conjunto de entrenamiento y en el de test, lo que permitiría al modelo memorizar parcialmente las características del objeto y producir estimaciones de rendimiento artificialmente optimistas, no representativas de su capacidad de generalización sobre asteroides no vistos.
+ 
+Para evitar este problema, la partición se realizó mediante \texttt{GroupShuffleSplit} de \textit{scikit-learn}, especificando el identificador único de cada asteroide (\textit{asteroid\_designation}) como variable de agrupación. Este método garantiza que todos los registros pertenecientes a un mismo asteroide sean asignados de forma exclusiva a uno de los dos conjuntos, ya sea entrenamiento o test, pero nunca a ambos simultáneamente. La proporción de la partición se fijó en un 80\% de los asteroides para entrenamiento y un 20\% para test, bajo una semilla aleatoria determinista (\texttt{random\_state=42}) que asegura la reproducibilidad exacta de los experimentos. Esta estrategia de validación agrupada es metodológicamente más exigente que una división estratificada simple y refleja de forma más fiel el escenario de despliegue real del sistema, en el que el modelo debe clasificar asteroides que no ha visto durante el entrenamiento.
+ 
+\section{Tratamiento del desbalanceo de clases}
+ 
+El conjunto de datos presenta un marcado desbalanceo entre las dos clases de la variable objetivo: los asteroides incluidos en la lista Sentry constituyen una fracción muy minoritaria del total de registros, lo que refleja la propia rareza del fenómeno en el catálogo real de aproximaciones. Este desbalanceo tiene consecuencias directas sobre el comportamiento de los clasificadores: un modelo que predijera sistemáticamente la clase mayoritaria (asteroide no incluido en Sentry) obtendría una exactitud (\textit{accuracy}) elevada sin haber aprendido nada útil sobre la clase de interés.
+ 
+Para mitigar este efecto, se adoptó una estrategia de ponderación de clases durante el entrenamiento: todos los clasificadores se configuraron con el parámetro \texttt{class\_weight=balanced}, que ajusta automáticamente el peso de cada muestra durante la minimización de la función de pérdida en proporción inversa a la frecuencia de su clase en el conjunto de entrenamiento, de forma que los errores cometidos sobre instancias de la clase minoritaria reciben una penalización proporcionalmente mayor. Esta estrategia es conceptualmente equivalente al sobremuestreo de la clase minoritaria, pero evita la generación de muestras sintéticas y es directamente compatible con todos los estimadores de \textit{scikit-learn} utilizados en el proyecto.
+ 
+En coherencia con esta estrategia, la métrica empleada tanto para la optimización de hiperparámetros como para la evaluación y comparación final de los modelos fue el \textit{F1-score} sobre la clase positiva (asteroide en Sentry), que combina precisión y exhaustividad en una única medida armónica y resulta especialmente adecuada para problemas con desbalanceo de clases. De forma complementaria, se calcularon también la \textit{Balanced Accuracy}, el \textit{recall}, la \textit{precision} y el área bajo la curva \gls{roc} (\gls{auc}-\gls{roc}), que proporcionan una imagen más completa del comportamiento del modelo a lo largo de los distintos umbrales de decisión.
+ 
+\section{Modelos de referencia: clasificadores clásicos}
+ 
+Con el objetivo de disponer de una base comparativa sólida sobre la que evaluar el rendimiento de la red neuronal, se entrenaron tres modelos clásicos de aprendizaje automático supervisado, implementados en el script \texttt{CodigoCompararModelos.py}: un Árbol de Decisión (\texttt{DecisionTreeClassifier}), una Regresión Logística (\texttt{LogisticRegression}) y un Bosque Aleatorio (\texttt{RandomForestClassifier}). Los tres modelos fueron entrenados dentro de sus respectivos pipelines de \textit{scikit-learn}, incluyendo el preprocesador descrito anteriormente, y con el parámetro \texttt{class\_weight=balanced} activo en todos los casos.
+ 
+Estos tres clasificadores representan niveles de complejidad creciente: el Árbol de Decisión es el modelo más interpretable y con mayor tendencia al sobreajuste; la Regresión Logística es un modelo lineal, rápido y estable, que actúa como referencia de mínima complejidad; y el Bosque Aleatorio, como modelo de conjunto basado en la agregación de múltiples árboles, constituye habitualmente el clasificador de mayor rendimiento dentro de los modelos clásicos para problemas de este tipo. Los resultados de estos tres modelos sobre el conjunto de test se recogen en el capítulo de Resultados y sirven como línea base para contextualizar el rendimiento del \gls{mlp}.
+ 
+\section{Optimización del Perceptrón Multicapa}
+ 
+El modelo principal del \gls{tfg}, implementado en \texttt{CodigoRedNeuronal.py}, es un Perceptrón Multicapa (\gls{mlp}) de la clase \texttt{MLPClassifier} de \textit{scikit-learn}, cuya arquitectura e hiperparámetros se optimizaron de forma sistemática mediante una búsqueda en rejilla (\texttt{GridSearchCV}) con validación cruzada de cinco pliegues (\textit{5-fold cross-validation}), usando el \textit{F1-score} como criterio de selección.
+ 
+El espacio de búsqueda explorado incluyó distintas configuraciones de capas ocultas, funciones de activación, coeficientes de regularización L2 (\textit{alpha}) y tasas de aprendizaje iniciales. El optimizador utilizado en todos los casos fue \textit{adam}, por su eficiencia computacional y su robustez frente a la elección de la tasa de aprendizaje en comparación con el descenso de gradiente estocástico clásico. La validación cruzada durante la búsqueda de hiperparámetros se realizó únicamente sobre el conjunto de entrenamiento, de forma que el conjunto de test permaneció completamente aislado hasta la evaluación final del modelo óptimo seleccionado.
+ 
+Una vez identificada la configuración de hiperparámetros con mejor \textit{F1-score} medio en validación cruzada, el modelo correspondiente fue reentrenado sobre la totalidad del conjunto de entrenamiento y evaluado sobre el conjunto de test, obteniendo las métricas definitivas que se presentan en el capítulo de Resultados. El modelo óptimo resultante fue serializado mediante \texttt{joblib} y almacenado en el archivo binario \texttt{modelo\_nn\_panico.pkl}, junto con el pipeline de preprocesado ajustado, garantizando que cualquier aplicación futura del modelo sobre nuevos datos aplique exactamente las mismas transformaciones que se utilizaron durante el entrenamiento.
+ 
+\section{Diagnóstico visual y exportación de resultados}
+ 
+Ambos scripts de modelado incorporan un módulo de diagnóstico visual que genera y exporta de forma automática representaciones gráficas del rendimiento de cada modelo evaluado. Para cada clasificador se generan: la matriz de confusión normalizada sobre el conjunto de test, que permite identificar visualmente la distribución de errores entre clases; el informe de clasificación en formato de mapa de calor, que recoge precisión, exhaustividad y \textit{F1-score} por clase; y, en el caso de la red neuronal, la curva de pérdida de entrenamiento a lo largo de las épocas, que permite verificar la convergencia del optimizador y detectar posibles signos de sobreajuste. Todos los archivos gráficos se exportan en formato \texttt{.png} dentro de un directorio local denominado \texttt{graficas}, organizado por tipo de modelo, facilitando tanto la revisión técnica durante el desarrollo como la elaboración de la documentación final del proyecto.
+
+   
+\chapter{Implementación}
+ 
+Este capítulo describe los aspectos técnicos concretos de la solución desarrollada: el entorno de trabajo, la estructura del proyecto, las decisiones de programación adoptadas en cada módulo y el flujo de ejecución del sistema completo. Mientras que el capítulo de Metodología justificó el \textit{qué} y el \textit{por qué} de cada decisión de diseño, este capítulo se centra en el \textit{cómo} se llevaron a cabo dichas decisiones en código.
+ 
+\section{Entorno de desarrollo}
+ 
+El proyecto se desarrolló íntegramente sobre un equipo con sistema operativo Linux, utilizando Visual Studio Code como entorno de desarrollo integrado. El lenguaje de programación empleado fue Python 3.12, gestionado mediante un entorno virtual estándar creado con \texttt{venv}, lo que garantiza el aislamiento de las dependencias del proyecto respecto al intérprete del sistema y facilita la reproducibilidad del entorno de ejecución en otras máquinas.
+ 
+Las principales librerías utilizadas a lo largo del proyecto, junto con su propósito, son las siguientes. \texttt{pandas} y \texttt{numpy} se emplean para la manipulación y transformación del conjunto de datos en memoria. \texttt{scikit-learn} proporciona todos los componentes del pipeline de preprocesado (\texttt{Pipeline}, \texttt{ColumnTransformer}, \texttt{SimpleImputer}, \texttt{StandardScaler}), los clasificadores (\texttt{DecisionTreeClassifier}, \texttt{LogisticRegression}, \texttt{RandomForestClassifier}, \texttt{MLPClassifier}), la estrategia de partición agrupada (\texttt{GroupShuffleSplit}), la búsqueda de hiperparámetros (\texttt{GridSearchCV}) y el cálculo de métricas de evaluación. \texttt{astroquery} permite acceder de forma programática a la interfaz \texttt{Horizons} del \gls{jpl} para la descarga de los vectores cinemáticos. \texttt{matplotlib} y \texttt{seaborn} se utilizan conjuntamente para la generación de todas las representaciones gráficas de diagnóstico. Finalmente, \texttt{pickle} y \texttt{joblib} permiten la serialización y persistencia de los modelos entrenados.
+ 
+Cabe señalar que el script \texttt{CodigoCompararModelos.py} importa también las clases \texttt{KNeighborsClassifier} y \texttt{SVC} de \textit{scikit-learn}, así como \texttt{RandomizedSearchCV}, aunque estas no se emplean en la versión final del código, habiendo quedado como residuo de exploraciones preliminares descartadas durante el desarrollo.
+ 
+\section{Estructura del proyecto}
+ 
+El proyecto se organiza en tres scripts Python independientes, cada uno responsable de una etapa diferenciada del flujo de trabajo, más un directorio de salida para los artefactos generados:
+ 
+\begin{itemize}
+    \item \texttt{CodigoPrepararBBDD.py}: construcción y enriquecimiento del conjunto de datos. Se ejecuta una única vez y genera \texttt{dataset\_final.csv}.
+    \item \texttt{CodigoCompararModelos.py}: entrenamiento y evaluación de los modelos clásicos de referencia (Árbol de Decisión, Regresión Logística y Bosque Aleatorio) sobre el dataset final.
+    \item \texttt{CodigoRedNeuronal.py}: búsqueda de hiperparámetros, entrenamiento y evaluación del Perceptrón Multicapa, y serialización del modelo óptimo.
+    \item \texttt{graficas/}: directorio de salida donde ambos scripts de modelado exportan automáticamente los archivos \texttt{.png} con las representaciones gráficas de rendimiento.
+\end{itemize}
+ 
+El flujo de ejecución es estrictamente secuencial: \texttt{CodigoPrepararBBDD.py} debe ejecutarse en primer lugar para generar el archivo \texttt{dataset\_final.csv} del que dependen los dos scripts de modelado, que pueden ejecutarse de forma independiente entre sí una vez disponible dicho archivo.
+ 
+\section{Módulo de construcción del dataset: \texttt{CodigoPrepararBBDD.py}}
+ 
+Este script implementa el proceso de enriquecimiento del dataset original de Kaggle mediante consultas automatizadas a JPL Horizons. Para cada uno de los registros procesados, se instancia la clase \texttt{Horizons} de \texttt{astroquery.jpl\_horizons} con el identificador del asteroide y la fecha del acercamiento, y se invoca el método \texttt{.vectors()} para obtener el vector de estado completo (posición y velocidad) en el instante deseado. La misma consulta se repite especificando la Tierra como cuerpo objetivo para obtener sus vectores de posición en el mismo instante de referencia.
+ 
+Dado el volumen de registros procesados ---las primeras 50.000 filas del dataset original---, el script incorpora un mecanismo de gestión de errores mediante bloques \texttt{try-except} que captura las excepciones producidas por consultas fallidas (identificadores no reconocidos por Horizons, fechas fuera del rango de las efemérides disponibles o timeouts de la conexión) y las registra sin interrumpir el procesamiento del resto de filas. Las filas para las que no se pudo completar la consulta quedan con valores nulos en las columnas de vectores y son posteriormente descartadas en la etapa de saneamiento.
+ 
+Adicionalmente, el script elimina del dataset las columnas que constituyen fuga de información respecto a la variable objetivo (\textit{sentry\_impact\_prob}, \textit{sentry\_torino\_scale}, \textit{sentry\_palermo\_scale}, \textit{sentry\_diameter\_km}), las columnas de texto libre sin capacidad predictiva (\textit{asteroid\_designation}, \textit{asteroid\_fullname}, \textit{close\_approach\_date}, \textit{panic\_verdict}) y la variable \textit{panic\_level}, descartada por los motivos expuestos en el capítulo de Metodología. El archivo resultante, \texttt{dataset\_final.csv}, queda listo para ser consumido directamente por los scripts de modelado.
+ 
+\section{Módulo de modelos clásicos: \texttt{CodigoCompararModelos.py}}
+ 
+Este script implementa el entrenamiento y evaluación de los tres clasificadores de referencia. Su estructura de ejecución sigue los siguientes pasos. En primer lugar, se carga \texttt{dataset\_final.csv} con \texttt{pandas} y se separan las variables predictoras de la variable objetivo \textit{on\_sentry\_list}. A continuación, se construye el preprocesador como un \texttt{ColumnTransformer} con el bloque numérico descrito en el capítulo de Metodología, y se instancian los tres pipelines, uno por clasificador, encadenando el preprocesador con el estimador correspondiente y el parámetro \texttt{class\_weight=`balanced'} activado.
+ 
+La partición de los datos se realiza mediante \texttt{GroupShuffleSplit} con \texttt{random\_state=42} y una proporción 80/20, agrupando por \textit{asteroid\_designation} tal como se describió en el capítulo anterior. Cada pipeline se ajusta sobre el conjunto de entrenamiento con una única llamada a \texttt{.fit()} y se evalúa sobre el conjunto de test con \texttt{.predict()} y \texttt{.predict\_proba()}, calculando a continuación el conjunto completo de métricas: \textit{accuracy}, \textit{balanced accuracy}, \textit{F1-score}, \textit{precision}, \textit{recall} y \gls{auc}-\gls{roc}.
+ 
+El módulo de diagnóstico visual, ejecutado al finalizar la evaluación de cada modelo, genera tres archivos por clasificador: la matriz de confusión normalizada, producida con \texttt{confusion\_matrix} de \textit{scikit-learn} y visualizada como mapa de calor con \texttt{seaborn.heatmap}; el informe de clasificación por clase en formato tabular, generado con \texttt{classification\_report} y renderizado igualmente como mapa de calor; y un resumen comparativo de métricas globales entre los tres modelos. Todos los archivos se guardan en el directorio \texttt{graficas/} mediante \texttt{matplotlib.pyplot.savefig()}.
+ 
+\section{Módulo de red neuronal: \texttt{CodigoRedNeuronal.py}}
+ 
+Este script implementa la búsqueda de hiperparámetros, el entrenamiento final y la serialización del \gls{mlp}. Comparte con \texttt{CodigoCompararModelos.py} la lógica de carga de datos, construcción del preprocesador y partición agrupada, de forma que ambos scripts operan exactamente sobre las mismas particiones de entrenamiento y test, garantizando la comparabilidad de los resultados.
+ 
+La búsqueda de hiperparámetros se implementa mediante \texttt{GridSearchCV} de \textit{scikit-learn}, envolviendo un pipeline que encadena el preprocesador con un \texttt{MLPClassifier}. El espacio de búsqueda definido cubre combinaciones de tamaños de capa oculta, funciones de activación (\texttt{relu} y \texttt{tanh}), coeficientes de regularización L2 (\textit{alpha}) y tasas de aprendizaje iniciales. La validación cruzada interna se realiza con cinco pliegues (\texttt{cv=5}) y el criterio de selección es el \textit{F1-score} sobre la clase positiva (\texttt{scoring=`f1'}). El optimizador empleado en todos los casos es \textit{adam}.
+
+Dado el volumen del dataset y el tamaño del espacio de búsqueda, el proceso completo de \texttt{GridSearchCV} requirió aproximadamente noventa minutos de cómputo en el equipo de desarrollo. Este tiempo es representativo de un equipo de gama baja y podría reducirse significativamente en hardware con mayor capacidad de procesamiento o habilitando el paralelismo mediante el parámetro \texttt{n\_jobs=-1}, que distribuye la búsqueda entre todos los núcleos disponibles del procesador.
+ 
+Una vez finalizada la búsqueda, el mejor estimador identificado (\texttt{grid\_search.best\_estimator\_}) se evalúa sobre el conjunto de test y se serializa mediante \texttt{pickle} en el archivo \texttt{modelo\_nn\_panico.pkl}. Este archivo contiene el pipeline completo ---preprocesador ajustado más modelo entrenado--- de forma que puede cargarse y aplicarse directamente sobre nuevos datos sin necesidad de repetir ninguna etapa de preprocesado ni de entrenamiento.
+ 
+Adicionalmente, este script genera la curva de pérdida de entrenamiento del \gls{mlp} a partir del atributo \texttt{loss\_curve\_} del \texttt{MLPClassifier}, que registra el valor de la función de pérdida al final de cada época del optimizador \textit{adam}. Esta curva, exportada como archivo \texttt{.png} en el directorio \texttt{graficas/}, permite verificar visualmente la convergencia del entrenamiento y detectar indicios de sobreajuste o de un número de épocas insuficiente.
+ 
+\section{Flujo de ejecución del sistema}
+ 
+El sistema completo se ejecuta en tres fases secuenciales. La primera fase, correspondiente a \texttt{CodigoPrepararBBDD.py}, se ejecuta una única vez y puede requerir varias horas dependiendo de la velocidad de conexión a JPL Horizons y del volumen de registros a procesar, dado que cada consulta implica una petición HTTP individual al servicio de efemérides del \gls{jpl}. Las fases segunda y tercera, correspondientes a \texttt{CodigoCompararModelos.py} y \texttt{CodigoRedNeuronal.py} respectivamente, consumen \texttt{dataset\_final.csv} como entrada y pueden ejecutarse en cualquier orden una vez disponible dicho archivo. La Figura~\ref{fig:flujo_sistema} ilustra este flujo de ejecución.
+ 
+% INSERTAR FIGURA DEL FLUJO DE EJECUCIÓN
+% Puedes crear un diagrama simple con tres cajas y flechas:
+% [CodigoPrepararBBDD.py] --> [dataset_final.csv] --> [CodigoCompararModelos.py]
+%                                                 --> [CodigoRedNeuronal.py] --> [modelo_nn_panico.pkl]
+%                                                                            --> [graficas/]
+% \begin{figure}[H]
+%     \ffigbox[\FBwidth]{
+%         \caption[Flujo de ejecución del sistema]{Flujo de ejecución del sistema completo}
+%         \label{fig:flujo_sistema}
+%     }
+%     {\includegraphics[width=0.85\textwidth]{flujo_sistema.png}}
+% \end{figure}
+
+
+\chapter{Resultados}       
+
+\chapter{Discusión y Conclusiones} 
+
+\chapter{Marco Regulador}
+
+\chapter{Entorno Socio-Económico}
+	
+    
+    
+    
+    
+    
+    
+    
+    
+    % COMENZAR A ESCRIBIR el resto de la MEMORIA a partir de aquí (Estado del arte, Diseño de la solución, Implementación, Evaluación de resultados, Conclusiones, etc.)
+	
+	% IMPORTANTE: en LaTeX hay una serie de caracteres especiales, que son: # $ % & \ ^ _ { } ~. Si aparecen en el texto, tendrás un error al compilar. La mayoría se pueden escapar escribiendo \ delante. Para \ utiliza \textbackslash ; para ^ \textasciitilde y para ~ \textasciicircum.
+
+    % COMO incluir una FIGURA siguiendo las recomendaciones de la Guía: Alineación del título: izquierda, en la parte inferior de la figura; fuente a 10pt (el resto de la memoria está a 12); Numeración de la figura: se identificarán con números arábigos consecutivos tras la palabra Tabla. Si se sigue un esquema numérico de capítulos, el número de la tabla debe identificar con su primer dígito al capítulo, seguido por un punto y el número consecutivo que corresponda (Tabla 1.1, etc.); Propiedad intelectual: Se debe indicar la fuente de origen de la información en la parte inferior de la figura, a continuación del título.
+    
+    % EJEMPLO DE INCLUSIÓN de una figura:
+    % \begin{figure}[H]
+    % 	\ffigbox[\FBwidth] {
+    % 	\caption[Nombre que aparecerá en el índice]{Nombre que aparecerá debajo de la figura}
+    % 	}
+    % 	{\includegraphics[scale=0.6]{archivo de la imagen; deberá estar en la carpeta de imágenes}}
+    % \end{figure}
+    
+    % COMO incluir una TABLA siguiendo las recomendaciones de la Guía: Alineación del título: Centrado en la parte superior de de la tabla, en la parte superior de la tabla; fuente a 10pt (el resto de la memoria está a 12) y en mayúsculas; Numeración: se identificarán con números arábigos consecutivos tras la palabra Tabla. Si se sigue un esquema numérico de capítulos, el número de la tabla debe identificar con su primer dígito al capítulo, seguido por un punto y el número consecutivo que corresponda (Tabla 1.1, etc.); Propiedad intelectual: Se debe indicar la fuente de origen de la información en la parte inferior de la tabla.
+    
+    % EJEMPLO DE INCLUSIÓN de una tabla:
+% \begin{table}[H]
+% 	\ttabbox[\FBwidth]
+% 	{\caption{Lorem ipsum}}
+% 	{\begin{tabular}{|c|P{1.5cm}|c|P{1.5cm}|P{2cm}|c|P{1.5cm}|P{2cm}|}
+% 		\hline
+% 		\multicolumn{2}{|c|}{\textbf{I}} & \multicolumn{2}{c|}{\textbf{II}} & \multicolumn{3}{c|}{\textbf{III}} & \textbf{IV} \\
+% 		\hline
+% 		x & y & x & y & x & y & x & y \\
+% 		\hline
+% 		10.0 & 8.04 & 10.0 & 9.14 & 10.0 & 7.46 & 8.0 & 6.58 \\
+% 		\hline
+% 		8.0 & 6.95 & 8.0 & 8.14 & 8.0 & 6.77 & 8.0 & 5.76 \\
+% 		\hline
+% 		13.0 & 7.58 & 13.0 & 8.74 & 13.0 & 12.74 & 8.0 & 7.71 \\
+% 		\hline
+% 		9.0 & 8.81 & 9.0 & 8.77 & 9.0 & 7.11 & 8.0 & 8.84 \\
+% 		\hline
+% 		11.0 & 8.33 & 11.0 & 9.26 & 11.0 & 7.81 & 8.0 & 8.47 \\
+% 		\hline
+% 		14.0 & 9.96 & 14.0 & 8.10 & 14.0 & 8.84 & 8.0 & 7.04 \\
+% 		\hline
+% 		6.0 & 7.24 & 6.0 & 6.13 & 6.0 & 6.08 & 8.0 & 5.25 \\
+% 		\hline
+% 		4.0 & 4.26 & 4.0 & 3.10 & 4.0 & 5.39 & 19.0 & 12.50 \\
+% 		\hline
+% 		12.0 & 10.84 & 12.0 & 9.13 & 12.0 & 8.15 & 8.0 & 5.56 \\
+% 		\hline
+% 		7.0 & 4.82 & 7.0 & 7.26 & 7.0 & 6.42 & 8.0 & 7.91 \\
+% 		\hline
+% 		5.0 & 5.68 & 5.0 & 4.74 & 5.0 & 5.73 & 8.0 & 6.89 \\
+% 		\hline
+% 		\multicolumn{5}{l}{Fuente: BOE}
+% 	\end{tabular}}
+% \end{table}
+
+
+%----------
+%	BIBLIOGRAFÍA
+%----------	
+
+%\nocite{*} % Si quieres que aparezcan en la bibliografía todos los documentos que la componen (también los que no estén citados en el texto) descomenta está línea
+
+\clearpage
+\addcontentsline{toc}{chapter}{Bibliografía}
+\setquotestyle[english]{british} % Cambiamos el tipo de cita porque en el estilo IEEE se usan las comillas inglesas.
+\printbibliography
+
+
+
+%----------
+%	ANEXOS
+%----------	
+
+% Si tu trabajo incluye anexos, puedes descomentar las siguientes líneas
+%\chapter* {Anexo x}
+%\pagenumbering{gobble} % Las páginas de los anexos no se numeran
+
+
+
+\end{document}

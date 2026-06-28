@@ -1,0 +1,401 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global}
+    \entry{mondal2025multimodel}{article}{}
+      \name{author}{4}{}{%
+        {{hash=934eb184a84f90ec65f6b914813ba95c}{%
+           family={Mondal},
+           familyi={M\bibinitperiod},
+           given={Amit\bibnamedelima Kumar},
+           giveni={A\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=5aa2b7cfc3cf5dd02d8c92698817a6cf}{%
+           family={Aslam},
+           familyi={A\bibinitperiod},
+           given={Nafisha},
+           giveni={N\bibinitperiod}}}%
+        {{hash=0586b078ef6b174f7bacdfd7d0fb1f79}{%
+           family={Maji},
+           familyi={M\bibinitperiod},
+           given={Prasenjit},
+           giveni={P\bibinitperiod}}}%
+        {{hash=b6f4466bee517b7217a338c5a189236e}{%
+           family={Mondal},
+           familyi={M\bibinitperiod},
+           given={Hemanta\bibnamedelima Kumar},
+           giveni={H\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+      }
+      \strng{namehash}{28f4eb733a0ae0fe65054cad5588feea}
+      \strng{fullhash}{eb29afa290405a9c000ed5103e99fbf2}
+      \strng{bibnamehash}{eb29afa290405a9c000ed5103e99fbf2}
+      \strng{authorbibnamehash}{eb29afa290405a9c000ed5103e99fbf2}
+      \strng{authornamehash}{28f4eb733a0ae0fe65054cad5588feea}
+      \strng{authorfullhash}{eb29afa290405a9c000ed5103e99fbf2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2503.15901}
+      \field{title}{A Multi-Model Approach Using {XAI} and Anomaly Detection to Predict Asteroid Hazards}
+      \field{year}{2025}
+    \endentry
+    \entry{cneos_sentry_intro}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=38278fe8d9866e1694bc5c97c624e219}{%
+           family={{NASA/JPL Center for Near-Earth Object Studies}},
+           familyi={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{38278fe8d9866e1694bc5c97c624e219}
+      \strng{fullhash}{38278fe8d9866e1694bc5c97c624e219}
+      \strng{bibnamehash}{38278fe8d9866e1694bc5c97c624e219}
+      \strng{authorbibnamehash}{38278fe8d9866e1694bc5c97c624e219}
+      \strng{authornamehash}{38278fe8d9866e1694bc5c97c624e219}
+      \strng{authorfullhash}{38278fe8d9866e1694bc5c97c624e219}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://cneos.jpl.nasa.gov/sentry/}}
+      \field{note}{Accedido en junio de 2026}
+      \field{title}{Sentry: Earth Impact Monitoring}
+      \field{year}{2026}
+    \endentry
+    \entry{chesley2002palermo}{article}{}
+      \name{author}{5}{}{%
+        {{hash=6bfa070af34be4445ca07bbd4e9c0951}{%
+           family={Chesley},
+           familyi={C\bibinitperiod},
+           given={Steven\bibnamedelima R.},
+           giveni={S\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=f97ec72639f45bfba79a3d9e717edf08}{%
+           family={Chodas},
+           familyi={C\bibinitperiod},
+           given={Paul\bibnamedelima W.},
+           giveni={P\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=0277a0951089c87f68cc8b5243c3814c}{%
+           family={Milani},
+           familyi={M\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod}}}%
+        {{hash=93a63df8769389bab94ae9b47a56e401}{%
+           family={Valsecchi},
+           familyi={V\bibinitperiod},
+           given={Giovanni\bibnamedelima B.},
+           giveni={G\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=7a5ac9b5e94e5343e6d7d2b1a46ad51b}{%
+           family={Yeomans},
+           familyi={Y\bibinitperiod},
+           given={Donald\bibnamedelima K.},
+           giveni={D\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+      }
+      \strng{namehash}{d119ddbd506522d78f2a38f820448ffa}
+      \strng{fullhash}{3b70a8eccd9f817594fcbf3740067877}
+      \strng{bibnamehash}{3b70a8eccd9f817594fcbf3740067877}
+      \strng{authorbibnamehash}{3b70a8eccd9f817594fcbf3740067877}
+      \strng{authornamehash}{d119ddbd506522d78f2a38f820448ffa}
+      \strng{authorfullhash}{3b70a8eccd9f817594fcbf3740067877}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Icarus}
+      \field{title}{Quantifying the Risk Posed by Potential Earth Impacts}
+      \field{volume}{159}
+      \field{year}{2002}
+      \field{pages}{423\bibrangedash 432}
+      \range{pages}{10}
+    \endentry
+    \entry{battin1999introduction}{book}{}
+      \name{author}{1}{}{%
+        {{hash=cd1177b0c548c297b7e6ca9983baa0e7}{%
+           family={Battin},
+           familyi={B\bibinitperiod},
+           given={Richard\bibnamedelima H.},
+           giveni={R\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Reston, Virginia}%
+      }
+      \list{publisher}{1}{%
+        {AIAA Education Series}%
+      }
+      \strng{namehash}{cd1177b0c548c297b7e6ca9983baa0e7}
+      \strng{fullhash}{cd1177b0c548c297b7e6ca9983baa0e7}
+      \strng{bibnamehash}{cd1177b0c548c297b7e6ca9983baa0e7}
+      \strng{authorbibnamehash}{cd1177b0c548c297b7e6ca9983baa0e7}
+      \strng{authornamehash}{cd1177b0c548c297b7e6ca9983baa0e7}
+      \strng{authorfullhash}{cd1177b0c548c297b7e6ca9983baa0e7}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{Revised}
+      \field{title}{An Introduction to the Mathematics and Methods of Astrodynamics}
+      \field{year}{1999}
+    \endentry
+    \entry{vokrouhlicky2015yarkovsky}{incollection}{}
+      \name{author}{5}{}{%
+        {{hash=7241b2822b6b03248a469668550de7d4}{%
+           family={Vokrouhlický},
+           familyi={V\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=659cc4647fdfa3ff220c71cd77a8724f}{%
+           family={Bottke},
+           familyi={B\bibinitperiod},
+           given={William\bibnamedelima F.},
+           giveni={W\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+        {{hash=6bfa070af34be4445ca07bbd4e9c0951}{%
+           family={Chesley},
+           familyi={C\bibinitperiod},
+           given={Steven\bibnamedelima R.},
+           giveni={S\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=cc843f6690abe15bb39b57c0fd4678a7}{%
+           family={Scheeres},
+           familyi={S\bibinitperiod},
+           given={Daniel\bibnamedelima J.},
+           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=4267f4e677657f3112a1f007a0edb6c6}{%
+           family={Statler},
+           familyi={S\bibinitperiod},
+           given={Thomas\bibnamedelima S.},
+           giveni={T\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \name{editor}{3}{}{%
+        {{hash=f6b799fa09a48a1b562238c5dfab042c}{%
+           family={Michel},
+           familyi={M\bibinitperiod},
+           given={Patrick},
+           giveni={P\bibinitperiod}}}%
+        {{hash=330d7b5c26a712124afe2f08c89817c0}{%
+           family={DeMeo},
+           familyi={D\bibinitperiod},
+           given={Francesca\bibnamedelima E.},
+           giveni={F\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=659cc4647fdfa3ff220c71cd77a8724f}{%
+           family={Bottke},
+           familyi={B\bibinitperiod},
+           given={William\bibnamedelima F.},
+           giveni={W\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Tucson}%
+      }
+      \list{publisher}{1}{%
+        {University of Arizona Press}%
+      }
+      \strng{namehash}{e5fbc66f9d3d58650b73f278ddae4fe0}
+      \strng{fullhash}{03902c861719f0d0ef6a74e6a2a6bfd5}
+      \strng{bibnamehash}{03902c861719f0d0ef6a74e6a2a6bfd5}
+      \strng{authorbibnamehash}{03902c861719f0d0ef6a74e6a2a6bfd5}
+      \strng{authornamehash}{e5fbc66f9d3d58650b73f278ddae4fe0}
+      \strng{authorfullhash}{03902c861719f0d0ef6a74e6a2a6bfd5}
+      \strng{editorbibnamehash}{3d583fb04eab070f375840a334a3b98c}
+      \strng{editornamehash}{3d583fb04eab070f375840a334a3b98c}
+      \strng{editorfullhash}{3d583fb04eab070f375840a334a3b98c}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Asteroids {IV}}
+      \field{title}{The Yarkovsky and {YORP} Effects}
+      \field{year}{2015}
+      \field{pages}{509\bibrangedash 531}
+      \range{pages}{23}
+    \endentry
+    \entry{milani1999theory}{article}{}
+      \name{author}{3}{}{%
+        {{hash=0277a0951089c87f68cc8b5243c3814c}{%
+           family={Milani},
+           familyi={M\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod}}}%
+        {{hash=6bfa070af34be4445ca07bbd4e9c0951}{%
+           family={Chesley},
+           familyi={C\bibinitperiod},
+           given={Steven\bibnamedelima R.},
+           giveni={S\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=93a63df8769389bab94ae9b47a56e401}{%
+           family={Valsecchi},
+           familyi={V\bibinitperiod},
+           given={Giovanni\bibnamedelima B.},
+           giveni={G\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \strng{namehash}{ff8ce670ded8cd116ca4bbcac52b28ed}
+      \strng{fullhash}{ff8ce670ded8cd116ca4bbcac52b28ed}
+      \strng{bibnamehash}{ff8ce670ded8cd116ca4bbcac52b28ed}
+      \strng{authorbibnamehash}{ff8ce670ded8cd116ca4bbcac52b28ed}
+      \strng{authornamehash}{ff8ce670ded8cd116ca4bbcac52b28ed}
+      \strng{authorfullhash}{ff8ce670ded8cd116ca4bbcac52b28ed}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Planetary and Space Science}
+      \field{title}{Theory of Close Planetary Approaches}
+      \field{volume}{47}
+      \field{year}{1999}
+      \field{pages}{1091\bibrangedash 1099}
+      \range{pages}{9}
+    \endentry
+    \entry{pasko2018prediction}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=8087c73ff099aae3c15fd28f105d5d49}{%
+           family={Pasko},
+           familyi={P\bibinitperiod},
+           given={Vadym},
+           giveni={V\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Cham}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{8087c73ff099aae3c15fd28f105d5d49}
+      \strng{fullhash}{8087c73ff099aae3c15fd28f105d5d49}
+      \strng{bibnamehash}{8087c73ff099aae3c15fd28f105d5d49}
+      \strng{authorbibnamehash}{8087c73ff099aae3c15fd28f105d5d49}
+      \strng{authornamehash}{8087c73ff099aae3c15fd28f105d5d49}
+      \strng{authorfullhash}{8087c73ff099aae3c15fd28f105d5d49}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Stardust Final Conference}
+      \field{title}{Prediction of Orbital Parameters for Undiscovered Potentially Hazardous Asteroids Using Machine Learning}
+      \field{year}{2018}
+    \endentry
+    \entry{hefele2020identifying}{article}{}
+      \name{author}{3}{}{%
+        {{hash=967da3463929a13ab1a7f5d8064fc3cf}{%
+           family={Hefele},
+           familyi={H\bibinitperiod},
+           given={John\bibnamedelima D.},
+           giveni={J\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=d7f898edb23f9301a99b63b607314bdb}{%
+           family={Bortolussi},
+           familyi={B\bibinitperiod},
+           given={Francesco},
+           giveni={F\bibinitperiod}}}%
+        {{hash=e811baf301d6c708361ddff2e6b18cec}{%
+           family={Portegies\bibnamedelima Zwart},
+           familyi={P\bibinitperiod\bibinitdelim Z\bibinitperiod},
+           given={Simon},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{470e37d8646bbaf0b947a8ba724d4cf4}
+      \strng{fullhash}{470e37d8646bbaf0b947a8ba724d4cf4}
+      \strng{bibnamehash}{470e37d8646bbaf0b947a8ba724d4cf4}
+      \strng{authorbibnamehash}{470e37d8646bbaf0b947a8ba724d4cf4}
+      \strng{authornamehash}{470e37d8646bbaf0b947a8ba724d4cf4}
+      \strng{authorfullhash}{470e37d8646bbaf0b947a8ba724d4cf4}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Astronomy \& Astrophysics}
+      \field{title}{Identifying Earth-Impacting Asteroids Using an Artificial Neural Network}
+      \field{volume}{634}
+      \field{year}{2020}
+      \field{pages}{A45}
+      \range{pages}{-1}
+    \endentry
+    \entry{linares2016space}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=8cedd29a1597b110e535ec33c8afc60a}{%
+           family={Linares},
+           familyi={L\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod}}}%
+        {{hash=cc014062f5c99674859d9f6308484b64}{%
+           family={Furfaro},
+           familyi={F\bibinitperiod},
+           given={Roberto},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{edfd0946edffc898d34abfb92e5879b4}
+      \strng{fullhash}{edfd0946edffc898d34abfb92e5879b4}
+      \strng{bibnamehash}{edfd0946edffc898d34abfb92e5879b4}
+      \strng{authorbibnamehash}{edfd0946edffc898d34abfb92e5879b4}
+      \strng{authornamehash}{edfd0946edffc898d34abfb92e5879b4}
+      \strng{authorfullhash}{edfd0946edffc898d34abfb92e5879b4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2016 19th International Conference on Information Fusion (FUSION)}
+      \field{title}{Space Object Classification Using Deep Convolutional Neural Networks}
+      \field{year}{2016}
+    \endentry
+    \entry{chandra2025enhanced}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=930255df4631e5d263f20bf9a61921fe}{%
+           family={Chandra},
+           familyi={C\bibinitperiod},
+           given={Sunkalp},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{930255df4631e5d263f20bf9a61921fe}
+      \strng{fullhash}{930255df4631e5d263f20bf9a61921fe}
+      \strng{bibnamehash}{930255df4631e5d263f20bf9a61921fe}
+      \strng{authorbibnamehash}{930255df4631e5d263f20bf9a61921fe}
+      \strng{authornamehash}{930255df4631e5d263f20bf9a61921fe}
+      \strng{authorfullhash}{930255df4631e5d263f20bf9a61921fe}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{arXiv:2508.15106}
+      \field{title}{Enhanced Predictive Modeling for Hazardous Near-Earth Object Detection}
+      \field{year}{2025}
+    \endentry
+    \entry{rosenblatt1958perceptron}{article}{}
+      \name{author}{1}{}{%
+        {{hash=1750cd87a34d44119e7a4aab9b8012c6}{%
+           family={Rosenblatt},
+           familyi={R\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{1750cd87a34d44119e7a4aab9b8012c6}
+      \strng{fullhash}{1750cd87a34d44119e7a4aab9b8012c6}
+      \strng{bibnamehash}{1750cd87a34d44119e7a4aab9b8012c6}
+      \strng{authorbibnamehash}{1750cd87a34d44119e7a4aab9b8012c6}
+      \strng{authornamehash}{1750cd87a34d44119e7a4aab9b8012c6}
+      \strng{authorfullhash}{1750cd87a34d44119e7a4aab9b8012c6}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Psychological Review}
+      \field{title}{The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain}
+      \field{volume}{65}
+      \field{year}{1958}
+      \field{pages}{386\bibrangedash 408}
+      \range{pages}{23}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

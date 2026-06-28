@@ -1,0 +1,41 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {chapter}{LISTA DE ABREVIATURAS}{\es@scroman {xiv}}{section*.6}%
+\contentsline {chapter}{\numberline {1}Introducción}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Motivación}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Contexto del problema}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Objetivos}{3}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Alcance}{3}{section.1.4}%
+\contentsline {chapter}{\numberline {2}Estado del Arte}{6}{chapter.2}%
+\contentsline {section}{\numberline {2.1}El problema de la detección y seguimiento de riesgo de impacto}{6}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Métodos clásicos de determinación orbital y evaluación de riesgo}{6}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Dinámica de dos cuerpos y elementos orbitales}{6}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Propagadores numéricos y modelos de perturbaciones}{7}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Métodos estadísticos y Monte Carlo: de la órbita a la probabilidad de impacto}{8}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Integración de aproximaciones y posicionamiento de este trabajo}{8}{subsection.2.2.4}%
+\contentsline {section}{\numberline {2.3}Determinación y predicción orbital mediante aprendizaje automático}{9}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Clasificación de riesgo y peligrosidad de asteroides mediante aprendizaje automático}{10}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Fundamentos del Perceptrón Multicapa}{11}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Desbalanceo de clases en problemas de clasificación astronómica}{11}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Posicionamiento de este TFG}{12}{section.2.7}%
+\contentsline {chapter}{\numberline {3}Metodología}{13}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Obtención y construcción del conjunto de datos}{13}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Análisis y validación crítica de la variable objetivo}{14}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Preprocesado y construcción del pipeline de transformación}{14}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Estrategia de validación y partición de los datos}{15}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Tratamiento del desbalanceo de clases}{16}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Modelos de referencia: clasificadores clásicos}{16}{section.3.6}%
+\contentsline {section}{\numberline {3.7}Optimización del Perceptrón Multicapa}{17}{section.3.7}%
+\contentsline {section}{\numberline {3.8}Diagnóstico visual y exportación de resultados}{17}{section.3.8}%
+\contentsline {chapter}{\numberline {4}Implementación}{19}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Entorno de desarrollo}{19}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Estructura del proyecto}{19}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Módulo de construcción del dataset: \texttt {CodigoPrepararBBDD.py}}{20}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Módulo de modelos clásicos: \texttt {CodigoCompararModelos.py}}{21}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Módulo de red neuronal: \texttt {CodigoRedNeuronal.py}}{21}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Flujo de ejecución del sistema}{22}{section.4.6}%
+\contentsline {chapter}{\numberline {5}Resultados}{23}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Discusión y Conclusiones}{24}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Marco Regulador}{25}{chapter.7}%
+\contentsline {chapter}{\numberline {8}Entorno Socio-Económico}{26}{chapter.8}%
+\contentsline {chapter}{Bibliografía}{27}{chapter.8}%
+\contentsfinish 
